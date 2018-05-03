@@ -27,6 +27,16 @@ const TrackRow = (props) => {
   );
 };
 
+const LoadingRow = () => {
+  return(
+    <TableRow>
+      <TableRowColumn>
+        Loading...
+      </TableRowColumn>
+    </TableRow>
+  );
+};
+
 class TrackTable extends Component {
   componentWillMount() {
     this.props.initialize();
@@ -47,14 +57,11 @@ class TrackTable extends Component {
         </TableHeader>
         <TableBody>
           {isFetching ?
-            <TableRow>
-              <TableRowColumn>
-                Loading...
-              </TableRowColumn>
-            </TableRow> :
+            <LoadingRow/> :
             tracks.map((track, index) => {
               return <TrackRow track={track} key={index} index={index}/>;
-            })}
+            })
+          }
         </TableBody>
       </Table>
     );

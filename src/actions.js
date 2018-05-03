@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 import * as actionTypes from './actionTypes';
 
 const clientId = '2658c55e1c16476a8136334d197ddfc6';
@@ -47,14 +49,15 @@ export const fetchAuth = () => {
   return (dispatch) => {
     dispatch(requestAuth());
 
-    const body = JSON.stringify({ 
+    const params = { 
       clientId, 
       responseType: 'token', 
       redirectUri: 'http://localhost:3000/', 
       scope: 'user-top-read'
-    });
+    };
+    const url = `${AUTH_URL}?${queryString.stringify(params)}`;
 
-    return fetch(AUTH_URL, { body }).then((response) => {
+    return fetch(url).then((response) => {
       return response.json();
     }).then((responseJson) => {
       if (responseJson.hasOwnProperty('error')) {
@@ -92,7 +95,7 @@ export const fetchTop = () => {
     return fetch(TOP_URL).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      dispatch(receieveTop(responseJson))
+      dispatch(receiveTop(responseJson))
     });
   }
 }
@@ -120,13 +123,14 @@ export const fetchRecs = (trackIds) => {
   return (dispatch) => {
     dispatch(requestTop());
 
-    joinedIds = trackIds.join(',');
-    const body = JSON.stringify({ seedTracks: joinedIds });
+    const joinedIds = trackIds.join(',');
+    const params = JSON.stringify({ seedTracks: joinedIds });
+    const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
-    return fetch(RECS_URL, { body }).then((response) => {
+    return fetch(url).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      dispatch(receieveTop(responseJson))
+      dispatch(receiveTop(responseJson))
     });
   }
 }
