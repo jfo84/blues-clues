@@ -10,20 +10,38 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-const HeaderCell = (props) => {
+const HeaderColumn = (props) => {
   return(
-    <TableHeaderColumn key={props.index} style={{ textAlign: 'center' }}>
-      {props.text}
+    <TableHeaderColumn style={{ textAlign: 'center' }}>
+      {props.name}
     </TableHeaderColumn>
   );
 }
 
-// TODO: Lots
-const TrackRow = (props) => {
+const RowColumn = (props) => {
   return(
-    <TableRowColumn key={props.index} style={{ textAlign: 'center' }}>
-      {props.text}
+    <TableRowColumn style={{ textAlign: 'center' }}>
+      {props.children}
     </TableRowColumn>
+  );
+}
+
+const TrackRow = (props) => {
+  const track = props.track;
+  const artistNames = track.artists.map(artist => artist.name).join(', ');
+
+  return(
+    <TableRow {...props}>
+      <RowColumn>
+        {track.name}
+      </RowColumn>
+      <RowColumn>
+        {artistNames}
+      </RowColumn>
+      <RowColumn>
+        {track.album.name}
+      </RowColumn>
+    </TableRow>
   );
 };
 
@@ -44,22 +62,22 @@ class TrackTable extends Component {
 
   render() {
     const { isFetching, tracks } = this.props;
-    const headerNames = ['Name', 'Artists', 'Album', 'Genres', 'Link'];
+    const headerNames = ['Name', 'Artists', 'Album'];
 
     return(
-      <Table fixedHeader={true} multiSelectable={true}>
+      <Table>
         <TableHeader>
           <TableRow>
             {headerNames.map((name, index) => {
-              return <HeaderCell name={name} index={index}/>
+              return <HeaderColumn name={name} key={index}/>
             })}
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody displayRowCheckbox={true}>
           {isFetching ?
-            <LoadingRow/> :
+            <LoadingRow /> :
             tracks.map((track, index) => {
-              return <TrackRow track={track} key={index} index={index}/>;
+              return <TrackRow track={track} key={index}/>;
             })
           }
         </TableBody>

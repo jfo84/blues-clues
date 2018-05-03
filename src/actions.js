@@ -5,8 +5,7 @@ import * as actionTypes from './actionTypes';
 const clientId = '2658c55e1c16476a8136334d197ddfc6';
 
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
-const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
-const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks'
+const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks';
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
 const requestAuth = () => {
@@ -52,7 +51,7 @@ export const fetchAuth = () => {
       scope: 'user-top-read'
     };
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
-    const options = { headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000/' }};
+    const options = { headers: {} };
 
     return fetch(url, options).then((response) => {
       return response.json();
@@ -92,8 +91,7 @@ export const fetchTracks = () => {
     const { accessToken } = getState();
     const options = {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Access-Control-Allow-Origin': 'http://localhost:3000/'
+        'Authorization': `Bearer ${accessToken}`
       }
     };
 
@@ -135,8 +133,7 @@ export const fetchRecs = (trackIds) => {
     const { accessToken } = getState();
     const options = {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Access-Control-Allow-Origin': 'http://localhost:3000/'
+        'Authorization': `Bearer ${accessToken}`
       }
     };
 
