@@ -5,7 +5,7 @@ const clientId = '2658c55e1c16476a8136334d197ddfc6';
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
 const TOP_URL = 'https://api.spotify.com/v1/me/top/tracks'
-const RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations';
+const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
 const requestAuth = () => {
   return {
@@ -116,7 +116,7 @@ export const fetchRecs = (trackIds) => {
     joinedIds = trackIds.join(',');
     const body = JSON.stringify({ seedTracks: joinedIds });
 
-    return fetch(TOP_URL, { body }).then((response) => {
+    return fetch(RECS_URL, { body }).then((response) => {
       return response.json();
     }).then((responseJson) => {
       dispatch(receieveTop(responseJson))
