@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
   isFetching: false,
+  tracks: [],
   // TODO: Split out what I need from the responses
   response: {}
 };

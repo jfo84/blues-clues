@@ -7,6 +7,13 @@ const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
 const TOP_URL = 'https://api.spotify.com/v1/me/top/tracks'
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
+export const initialize = () => {
+  return (dispatch) => {
+    dispatch(fetchAuth());
+    dispatch(fetchTop());
+  };
+};
+
 const requestAuth = () => {
   return {
     type: actionTypes.REQUEST_AUTH,
@@ -73,7 +80,7 @@ const receiveTop = (response) => {
     type: actionTypes.RECEIVE_TOP,
     payload: {
       isFetching: false,
-      response
+      tracks: response['items']
     }
   };
 };
