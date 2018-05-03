@@ -6,21 +6,15 @@ const clientId = '2658c55e1c16476a8136334d197ddfc6';
 
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
-const TOP_URL = 'https://api.spotify.com/v1/me/top/tracks'
+const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks'
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
-
-export const initialize = () => {
-  return (dispatch) => {
-    dispatch(fetchAuth());
-    dispatch(fetchTop());
-  };
-};
 
 const requestAuth = () => {
   return {
     type: actionTypes.REQUEST_AUTH,
     payload: {
-      isFetching: true
+      isFetching: true,
+      authenticated: false,
     }
   };
 };
@@ -30,7 +24,8 @@ const receiveAuth = (response) => {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
       isFetching: false,
-      response
+      authenticated: true,
+      accessToken: response['access_token']
     }
   };
 };
@@ -40,7 +35,8 @@ const failAuth = (response) => {
     type: actionTypes.FAIL_AUTH,
     payload: {
       isFetching: false,
-      response
+      authenticated: false,
+      errorMessage: response['error']
     }
   };
 };
@@ -50,14 +46,15 @@ export const fetchAuth = () => {
     dispatch(requestAuth());
 
     const params = { 
-      clientId, 
-      responseType: 'token', 
-      redirectUri: 'http://localhost:3000/', 
+      client_id: clientId, 
+      response_type: 'token', 
+      redirect_uri: 'http://localhost:3000/tracks', 
       scope: 'user-top-read'
     };
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
+    const options = { headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000/' }};
 
-    return fetch(url).then((response) => {
+    return fetch(url, options).then((response) => {
       return response.json();
     }).then((responseJson) => {
       if (responseJson.hasOwnProperty('error')) {
@@ -69,18 +66,18 @@ export const fetchAuth = () => {
   }
 }
 
-const requestTop = () => {
+const requestTracks = () => {
   return {
-    type: actionTypes.REQUEST_TOP,
+    type: actionTypes.REQUEST_TRACKS,
     payload: {
       isFetching: true
     }
   };
 };
 
-const receiveTop = (response) => {
+const receiveTracks = (response) => {
   return {
-    type: actionTypes.RECEIVE_TOP,
+    type: actionTypes.RECEIVE_TRACKS,
     payload: {
       isFetching: false,
       tracks: response['items']
@@ -88,14 +85,22 @@ const receiveTop = (response) => {
   };
 };
 
-export const fetchTop = () => {
-  return (dispatch) => {
-    dispatch(requestTop());
+export const fetchTracks = () => {
+  return (dispatch, getState) => {
+    dispatch(requestTracks());
 
-    return fetch(TOP_URL).then((response) => {
+    const { accessToken } = getState();
+    const options = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Access-Control-Allow-Origin': 'http://localhost:3000/'
+      }
+    };
+
+    return fetch(TRACKS_URL, options).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      dispatch(receiveTop(responseJson))
+      dispatch(receiveTracks(responseJson))
     });
   }
 }
@@ -120,17 +125,25 @@ const receiveRecs = (response) => {
 };
 
 export const fetchRecs = (trackIds) => {
-  return (dispatch) => {
-    dispatch(requestTop());
+  return (dispatch, getState) => {
+    dispatch(requestRecs());
 
     const joinedIds = trackIds.join(',');
-    const params = JSON.stringify({ seedTracks: joinedIds });
+    const params = JSON.stringify({ seed_tracks: joinedIds });
     const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
-    return fetch(url).then((response) => {
+    const { accessToken } = getState();
+    const options = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Access-Control-Allow-Origin': 'http://localhost:3000/'
+      }
+    };
+
+    return fetch(url, options).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      dispatch(receiveTop(responseJson))
+      dispatch(receiveRecs(responseJson))
     });
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initialize } from '../actions';
+import { fetchTracks } from '../actions';
 import {
   Table,
   TableHeader,
@@ -39,7 +39,7 @@ const LoadingRow = () => {
 
 class TrackTable extends Component {
   componentWillMount() {
-    this.props.initialize();
+    this.props.fetchTracks();
   }
 
   render() {
@@ -77,7 +77,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initialize: () => { dispatch(initialize()) }
+    fetchTracks: () => { dispatch(fetchTracks()) }
   };
 };
 

@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 
 const initialState = {
+  authenticated: false,
   isFetching: false,
   tracks: [],
-  // TODO: Split out what I need from the responses
-  response: {}
+  errorMessage: null,
+  accessToken: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,12 +27,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...payload
       };
-    case(actionTypes.REQUEST_TOP):
+    case(actionTypes.REQUEST_TRACKS):
       return {
         ...state,
         ...payload
       };
-    case(actionTypes.RECEIVE_TOP):
+    case(actionTypes.RECEIVE_TRACKS):
       return {
         ...state,
         ...payload
