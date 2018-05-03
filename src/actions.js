@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
+const TOP_URL = 'https://api.spotify.com/v1/me/top/tracks'
 const RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations';
 
 const requestAuth = () => {
@@ -37,7 +38,6 @@ export const fetchAuth = () => {
   return (dispatch) => {
     dispatch(requestAuth());
 
-    const params = Object.assign(BASE_PARAMS, {});
     // TODO: Retrieve client ID from env
     const body = JSON.stringify({ clientId: 'blah', responseType: 'code', redirectUri: 'http://localhost:3000/' });
 
@@ -49,6 +49,71 @@ export const fetchAuth = () => {
       // dispatch(receiveAuth(responseJson))
       // else
       // dispatch(failAuth(responseJson))
+    });
+  }
+}
+
+const requestTop = () => {
+  return {
+    type: actionTypes.REQUEST_TOP,
+    payload: {
+      isFetching: true
+    }
+  };
+};
+
+const receiveTop = (response) => {
+  return {
+    type: actionTypes.RECEIVE_TOP,
+    payload: {
+      isFetching: false,
+      response
+    }
+  };
+};
+
+export const fetchTop = () => {
+  return (dispatch) => {
+    dispatch(requestTop());
+
+    return fetch(TOP_URL).then((response) => {
+      return response.json();
+    }).then((responseJson) => {
+      dispatch(receieveTop(responseJson))
+    });
+  }
+}
+
+const requestRecs = () => {
+  return {
+    type: actionTypes.REQUEST_RECS,
+    payload: {
+      isFetching: true
+    }
+  };
+};
+
+const receiveRecs = (response) => {
+  return {
+    type: actionTypes.RECEIVE_RECS,
+    payload: {
+      isFetching: false,
+      response
+    }
+  };
+};
+
+export const fetchRecs = (trackIds) => {
+  return (dispatch) => {
+    dispatch(requestTop());
+
+    joinedIds = trackIds.join(',');
+    const body = JSON.stringify({ seedTracks: joinedIds });
+
+    return fetch(TOP_URL, { body }).then((response) => {
+      return response.json();
+    }).then((responseJson) => {
+      dispatch(receieveTop(responseJson))
     });
   }
 }
