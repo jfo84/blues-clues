@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 
+const clientId = '2658c55e1c16476a8136334d197ddfc6';
+
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const REFRESH_AUTH_URL = 'https://accounts.spotify.com/api/token';
 const TOP_URL = 'https://api.spotify.com/v1/me/top/tracks'
@@ -38,17 +40,21 @@ export const fetchAuth = () => {
   return (dispatch) => {
     dispatch(requestAuth());
 
-    // TODO: Retrieve client ID from env
-    const body = JSON.stringify({ clientId: 'blah', responseType: 'code', redirectUri: 'http://localhost:3000/' });
+    const body = JSON.stringify({ 
+      clientId, 
+      responseType: 'token', 
+      redirectUri: 'http://localhost:3000/', 
+      scope: 'user-top-read'
+    });
 
     return fetch(AUTH_URL, { body }).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      // TODO: Something like this
-      // if responseJson['status'] === 'success'
-      // dispatch(receiveAuth(responseJson))
-      // else
-      // dispatch(failAuth(responseJson))
+      if (responseJson.hasOwnProperty('error')) {
+        dispatch(failAuth(responseJson))
+      } else {
+        dispatch(receiveAuth(responseJson))
+      }
     });
   }
 }
