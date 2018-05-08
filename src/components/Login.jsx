@@ -10,9 +10,9 @@ class Login extends Component {
   }
 
   render () {
-    const { authenticated, errorMessage } = this.props;
+    const { isAuthenticated, errorMessage } = this.props;
     return (
-      authenticated ? (
+      isAuthenticated ? (
         <Redirect to={{pathname: "/tracks"}}/>
       ) : (
         <div>
@@ -25,7 +25,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authenticated: state.authenticated,
+    isAuthenticated: state.isAuthenticated,
     errorMessage: state.errorMessage
   };
 };

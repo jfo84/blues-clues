@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 
 const initialState = {
-  authenticated: false,
+  isAuthenticated: false,
   isFetching: false,
   tracks: [],
   errorMessage: null,

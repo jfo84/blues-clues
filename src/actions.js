@@ -13,7 +13,7 @@ const requestAuth = () => {
     type: actionTypes.REQUEST_AUTH,
     payload: {
       isFetching: true,
-      authenticated: false,
+      isAuthenticated: false,
     }
   };
 };
@@ -23,7 +23,7 @@ const receiveAuth = (response) => {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
       isFetching: false,
-      authenticated: true,
+      isAuthenticated: true,
       accessToken: response['access_token']
     }
   };
@@ -34,7 +34,7 @@ const failAuth = (response) => {
     type: actionTypes.FAIL_AUTH,
     payload: {
       isFetching: false,
-      authenticated: false,
+      isAuthenticated: false,
       errorMessage: response['error']
     }
   };
