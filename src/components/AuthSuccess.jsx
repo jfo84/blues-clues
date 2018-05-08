@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { receiveAuth } from '../actions';
 import { Redirect, withRouter } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 import queryString from 'query-string';
 
