@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAuth } from '../actions';
 
-import { Redirect } from 'react-router-dom';
-
 class Login extends Component {
   componentWillMount() {
     this.props.fetchAuth();

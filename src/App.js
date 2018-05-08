@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { 
   BrowserRouter as Router,
   Route,
+  Switch,
   Redirect
 } from 'react-router-dom';
 
@@ -10,9 +11,9 @@ import Login from './components/Login';
 import TrackTable from './components/TrackTable';
 import AuthSuccess from './components/AuthSuccess';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
-    props.isAuthenticated === true
+    isAuthenticated === true
       ? <Component {...props} />
       : <Redirect to='/login' />
   )} />
@@ -23,9 +24,11 @@ class App extends Component {
     return(
       <Router>
         <div>
-          <PrivateRoute exact path='/' component={TrackTable} />
-          <Route path='/auth_success' component={AuthSuccess} />
-          <Route path='/login' component={Login} isAuthenticated={this.props.isAuthenticated} />
+          <Switch>
+            <PrivateRoute exact path='/' component={TrackTable} isAuthenticated={this.props.isAuthenticated}/>
+            <Route path='/auth_success' component={AuthSuccess} />
+            <Route path='/login' component={Login} />
+          </Switch>
         </div>
       </Router>
     );

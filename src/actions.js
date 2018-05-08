@@ -29,17 +29,6 @@ export const receiveAuth = (authToken) => {
   };
 };
 
-// TODO: Deal with this
-// const failAuth = (errorMessage) => {
-//   return {
-//     type: actionTypes.FAIL_AUTH,
-//     payload: {
-//       isAuthenticated: false,
-//       errorMessage
-//     }
-//   };
-// };
-
 export const fetchAuth = () => {
   return (dispatch) => {
     dispatch(requestAuth());

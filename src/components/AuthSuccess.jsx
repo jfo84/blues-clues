@@ -39,7 +39,7 @@ class AuthSuccess extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    receiveAuth: () => { dispatch(receiveAuth()) }
+    receiveAuth: (authToken) => { dispatch(receiveAuth(authToken)) }
   };
 };
 
