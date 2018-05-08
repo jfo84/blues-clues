@@ -8,6 +8,7 @@ import {
 
 import Login from './components/Login';
 import TrackTable from './components/TrackTable';
+import AuthSuccess from './components/AuthSuccess';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -23,6 +24,7 @@ class App extends Component {
       <Router>
         <div>
           <PrivateRoute exact path='/' component={TrackTable} />
+          <Route path='/auth_success' component={AuthSuccess} />
           <Route path='/login' component={Login} isAuthenticated={this.props.isAuthenticated} />
         </div>
       </Router>

@@ -12,30 +12,27 @@ const requestAuth = () => {
   return {
     type: actionTypes.REQUEST_AUTH,
     payload: {
-      isFetching: true,
       isAuthenticated: false,
     }
   };
 };
 
-const receiveAuth = (response) => {
+const receiveAuth = (authToken) => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
-      isFetching: false,
       isAuthenticated: true,
-      accessToken: response['access_token']
+      authToken
     }
   };
 };
 
-const failAuth = (response) => {
+const failAuth = (errorMessage) => {
   return {
     type: actionTypes.FAIL_AUTH,
     payload: {
-      isFetching: false,
       isAuthenticated: false,
-      errorMessage: response['error']
+      errorMessage
     }
   };
 };
@@ -53,15 +50,11 @@ export const fetchAuth = () => {
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
     const options = { headers: {} };
 
-    return fetch(url, options).then((response) => {
-      return response.json();
-    }).then((responseJson) => {
-      if (responseJson.hasOwnProperty('error')) {
-        dispatch(failAuth(responseJson))
-      } else {
-        dispatch(receiveAuth(responseJson))
-      }
-    });
+    window.location.href = url;
+    // Could dispatch another action here but the UI doesn't need to
+    // know anything while at the Spotify auth URL
+    // AuthSuccess instead receives the redirect query params after which
+    // an action is dispatched and state changed
   }
 }
 
@@ -88,10 +81,10 @@ export const fetchTracks = () => {
   return (dispatch, getState) => {
     dispatch(requestTracks());
 
-    const { accessToken } = getState();
+    const { authToken } = getState();
     const options = {
       headers: {
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${authToken}`
       }
     };
 
@@ -130,10 +123,10 @@ export const fetchRecs = (trackIds) => {
     const params = JSON.stringify({ seed_tracks: joinedIds });
     const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
-    const { accessToken } = getState();
+    const { authToken } = getState();
     const options = {
       headers: {
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${authToken}`
       }
     };
 

@@ -5,7 +5,7 @@ const initialState = {
   isFetching: false,
   tracks: [],
   errorMessage: null,
-  accessToken: 'BQDRfcv13TSaPPmVkxI6ufsjo-a_312pKjPCtd8zijuqg1G04sS5yJtdSlWFtCwk-y4bS8d558PSv7OmZ_A_clt4zFVU4VAEUY9ehGyhmIutSowdS5O3vQPcooIfqFdsaeK7yOEpOeVIDEw7eg'
+  authToken: null
 };
 
 const reducer = (state = initialState, action) => {
