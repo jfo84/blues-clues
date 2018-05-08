@@ -11,9 +11,9 @@ import Login from './components/Login';
 import TrackTable from './components/TrackTable';
 import AuthSuccess from './components/AuthSuccess';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
-    isAuthenticated === true
+    hasAuthenticated === true
       ? <Component {...props} />
       : <Redirect to='/login' />
   )} />
@@ -25,7 +25,7 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <PrivateRoute exact path='/' component={TrackTable} isAuthenticated={this.props.isAuthenticated}/>
+            <PrivateRoute exact path='/' component={TrackTable} hasAuthenticated={this.props.hasAuthenticated}/>
             <Route path='/auth_success' component={AuthSuccess} />
             <Route path='/login' component={Login} />
           </Switch>
@@ -37,7 +37,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.isAuthenticated
+    hasAuthenticated: state.hasAuthenticated
   };
 };
 
