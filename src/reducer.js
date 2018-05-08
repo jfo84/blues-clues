@@ -1,7 +1,8 @@
 import * as actionTypes from './actionTypes';
 
 const initialState = {
-  isAuthenticated: false,
+  hasAuthenticated: false,
+  isAuthenticating: false,
   isFetching: false,
   tracks: [],
   error: null,
@@ -18,11 +19,6 @@ const reducer = (state = initialState, action) => {
         ...payload
       };
     case(actionTypes.RECEIVE_AUTH):
-      return {
-        ...state,
-        ...payload
-      };
-    case(actionTypes.FAIL_AUTH):
       return {
         ...state,
         ...payload

@@ -12,7 +12,8 @@ const requestAuth = () => {
   return {
     type: actionTypes.REQUEST_AUTH,
     payload: {
-      isAuthenticated: false,
+      hasAuthenticated: false,
+      isAuthenticating: true
     }
   };
 };
@@ -23,7 +24,8 @@ export const receiveAuth = (authToken, error) => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
-      isAuthenticated: true,
+      hasAuthenticated: true,
+      isAuthenticating: false,
       authToken,
       error
     }

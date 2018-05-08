@@ -25,9 +25,13 @@ class AuthSuccess extends Component {
   }
 
   render() {
-    const { isAuthenticated, error } = this.props;
+    const { hasAuthenticated, isAuthenticating, error } = this.props;
 
-    if (!isAuthenticated || error) {
+    if (!hasAuthenticated) {
+      return null;
+    }
+
+    if (isAuthenticating || error) {
       return <Redirect to={{pathname: '/login'}} error={error}/>;
     }
 
@@ -37,7 +41,8 @@ class AuthSuccess extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.isAuthenticated,
+    hasAuthenticated: state.hasAuthenticated,
+    isAuthenticating: state.isAuthenticating,
     error: state.error
   };
 };
