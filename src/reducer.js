@@ -4,7 +4,7 @@ const initialState = {
   isAuthenticated: false,
   isFetching: false,
   tracks: [],
-  errorMessage: null,
+  error: null,
   authToken: null
 };
 

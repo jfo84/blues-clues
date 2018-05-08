@@ -21,13 +21,11 @@ class AuthSuccess extends Component {
     const authToken = params['access_token'];
     const error = params['error'];
 
-    this.setState({ authToken, error });
-
-    this.props.receiveAuth(authToken);
+    this.props.receiveAuth(authToken, error);
   }
 
   render() {
-    const { authToken, error } = this.state;
+    const { authToken, error } = this.props;
 
     if (!authToken || error) {
       return <Redirect to={{pathname: '/login'}} error={error}/>;
@@ -37,10 +35,17 @@ class AuthSuccess extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    authToken: state.authToken,
+    error: state.error
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     receiveAuth: (authToken) => { dispatch(receiveAuth(authToken)) }
   };
 };
 
-export default connect(null, mapDispatchToProps)(withRouter(AuthSuccess));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AuthSuccess));

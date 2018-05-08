@@ -19,12 +19,13 @@ const requestAuth = () => {
 
 // Normally only fetchAuth would be exported but since receiveAuth is handled
 // in AuthSuccess after redirect from Spotify this is also exported
-export const receiveAuth = (authToken) => {
+export const receiveAuth = (authToken, error) => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
       isAuthenticated: true,
-      authToken
+      authToken,
+      error
     }
   };
 };
