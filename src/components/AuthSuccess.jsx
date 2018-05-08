@@ -25,9 +25,9 @@ class AuthSuccess extends Component {
   }
 
   render() {
-    const { authToken, error } = this.props;
+    const { isAuthenticated, error } = this.props;
 
-    if (!authToken || error) {
+    if (!isAuthenticated || error) {
       return <Redirect to={{pathname: '/login'}} error={error}/>;
     }
 
@@ -37,7 +37,7 @@ class AuthSuccess extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authToken: state.authToken,
+    isAuthenticated: state.isAuthenticated,
     error: state.error
   };
 };
