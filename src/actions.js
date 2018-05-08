@@ -17,7 +17,9 @@ const requestAuth = () => {
   };
 };
 
-const receiveAuth = (authToken) => {
+// Normally only fetchAuth would be exported but since receiveAuth is handled
+// in AuthSuccess after redirect from Spotify this is also exported
+export const receiveAuth = (authToken) => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
@@ -27,15 +29,16 @@ const receiveAuth = (authToken) => {
   };
 };
 
-const failAuth = (errorMessage) => {
-  return {
-    type: actionTypes.FAIL_AUTH,
-    payload: {
-      isAuthenticated: false,
-      errorMessage
-    }
-  };
-};
+// TODO: Deal with this
+// const failAuth = (errorMessage) => {
+//   return {
+//     type: actionTypes.FAIL_AUTH,
+//     payload: {
+//       isAuthenticated: false,
+//       errorMessage
+//     }
+//   };
+// };
 
 export const fetchAuth = () => {
   return (dispatch) => {
@@ -44,11 +47,10 @@ export const fetchAuth = () => {
     const params = { 
       client_id: clientId, 
       response_type: 'token', 
-      redirect_uri: 'http://localhost:3000/', 
+      redirect_uri: 'http://localhost:3000/auth_success/', 
       scope: 'user-top-read'
     };
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
-    const options = { headers: {} };
 
     window.location.href = url;
     // Could dispatch another action here but the UI doesn't need to
@@ -56,7 +58,7 @@ export const fetchAuth = () => {
     // AuthSuccess instead receives the redirect query params after which
     // an action is dispatched and state changed
   }
-}
+};
 
 const requestTracks = () => {
   return {
@@ -94,7 +96,7 @@ export const fetchTracks = () => {
       dispatch(receiveTracks(responseJson))
     });
   }
-}
+};
 
 const requestRecs = () => {
   return {
@@ -136,4 +138,4 @@ export const fetchRecs = (trackIds) => {
       dispatch(receiveRecs(responseJson))
     });
   }
-}
+};

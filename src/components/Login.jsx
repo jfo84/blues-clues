@@ -10,25 +10,9 @@ class Login extends Component {
   }
 
   render () {
-    const { isAuthenticated, errorMessage } = this.props;
-    return (
-      isAuthenticated ? (
-        <Redirect to={{pathname: '/'}}/>
-      ) : (
-        <div>
-          {errorMessage ? <p>{errorMessage}</p> : null}
-        </div>
-      )
-    );
+    return null;
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.isAuthenticated,
-    errorMessage: state.errorMessage
-  };
-};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -36,4 +20,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
