@@ -18,13 +18,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
+const RouteWithLocation = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={({ location }) => (
+    <Component {...location} />
+  )} />
+);
+
 class App extends Component {
   render() {
     return(
       <Router>
         <div>
           <PrivateRoute exact path='/' component={TrackTable} />
-          <Route path='/auth_success' component={AuthSuccess} />
+          <RouteWithLocation path='/auth_success' component={AuthSuccess} />
           <Route path='/login' component={Login} isAuthenticated={this.props.isAuthenticated} />
         </div>
       </Router>
