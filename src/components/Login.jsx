@@ -13,7 +13,7 @@ class Login extends Component {
     const { isAuthenticated, errorMessage } = this.props;
     return (
       isAuthenticated ? (
-        <Redirect to={{pathname: "/tracks"}}/>
+        <Redirect to={{pathname: '/'}}/>
       ) : (
         <div>
           {errorMessage ? <p>{errorMessage}</p> : null}
