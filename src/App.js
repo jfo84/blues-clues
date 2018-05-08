@@ -22,8 +22,8 @@ class App extends Component {
     return(
       <Router>
         <div>
-          <Route exact path='/' component={TrackTable} />
-          <PrivateRoute path='/login' component={Login} isAuthenticated={this.props.isAuthenticated} />
+          <PrivateRoute exact path='/' component={TrackTable} />
+          <Route path='/login' component={Login} isAuthenticated={this.props.isAuthenticated} />
         </div>
       </Router>
     );

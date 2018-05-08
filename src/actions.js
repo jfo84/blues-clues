@@ -47,7 +47,7 @@ export const fetchAuth = () => {
     const params = { 
       client_id: clientId, 
       response_type: 'token', 
-      redirect_uri: 'http://localhost:3000/tracks', 
+      redirect_uri: 'http://localhost:3000/', 
       scope: 'user-top-read'
     };
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
