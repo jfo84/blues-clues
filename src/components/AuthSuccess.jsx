@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { receiveAuth } from '../actions';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import queryString from 'query-string';
 
@@ -33,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(AuthSuccess);
+export default connect(null, mapDispatchToProps)(withRouter(AuthSuccess));

@@ -18,12 +18,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
-const RouteWithLocation = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={({ location }) => (
-    <Component {...location} />
-  )} />
-);
-
 class App extends Component {
   render() {
     return(
