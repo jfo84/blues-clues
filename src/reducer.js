@@ -5,6 +5,7 @@ const initialState = {
   isAuthenticating: false,
   isFetching: false,
   tracks: [],
+  selectedTracks: [],
   error: null,
   authToken: null
 };

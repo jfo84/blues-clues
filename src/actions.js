@@ -131,3 +131,12 @@ export const fetchRecs = (trackIds) => {
     });
   }
 };
+
+export const selectTracks = (selectedTracks) => {
+  return {
+    type: actionTypes.SELECT_TRACKS,
+    payload: {
+      selectedTracks
+    }
+  };
+};

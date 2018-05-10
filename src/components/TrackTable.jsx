@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchTracks } from '../actions';
-import {
-  Table,
-  TableHeader,
-  TableHeaderColumn,
+import Table, {
   TableBody,
-  TableRow,
-  TableRowColumn,
+  TableCell,
+  TableHead,
+  TableRow
 } from 'material-ui/Table';
 
-const HeaderColumn = (props) => {
+let HeaderColumn = (props) => {
   return(
     <TableHeaderColumn style={{ textAlign: 'center' }}>
       {props.name}
@@ -18,7 +16,7 @@ const HeaderColumn = (props) => {
   );
 }
 
-const RowColumn = (props) => {
+let RowColumn = (props) => {
   return(
     <TableRowColumn style={{ textAlign: 'center' }}>
       {props.children}
@@ -26,7 +24,7 @@ const RowColumn = (props) => {
   );
 }
 
-const TrackRow = (props) => {
+let TrackRow = (props) => {
   const track = props.track;
   const artistNames = track.artists.map(artist => artist.name).join(', ');
 
@@ -45,7 +43,7 @@ const TrackRow = (props) => {
   );
 };
 
-const LoadingRow = () => {
+let LoadingRow = () => {
   return(
     <TableRow>
       <TableRowColumn>
@@ -59,6 +57,37 @@ class TrackTable extends Component {
   componentWillMount() {
     this.props.fetchTracks();
   }
+
+  handleSelectAllClick = (event, checked) => {
+    if (checked) {
+      const selected = this.props.data.map(n => n.id);
+
+      this.props.selectTracks(selected);
+      return;
+    }
+    this.props.selectTracks([]]);
+  };
+
+  handleClick = (event, id) => {
+    const { selected } = this.props;
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    this.props.selectTracks(newSelected);
+  };
 
   render() {
     const { isFetching, tracks } = this.props;
@@ -89,13 +118,15 @@ class TrackTable extends Component {
 const mapStateToProps = (state) => {
   return {
     isFetching: state.isFetching,
-    tracks: state.tracks
+    tracks: state.tracks,
+    selected: state.selectedTracks
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchTracks: () => { dispatch(fetchTracks()) }
+    selectTracks: (selected) => { dispatch(selectTracks(selected)) }
   };
 };
 
