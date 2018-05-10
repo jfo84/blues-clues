@@ -1,8 +1,9 @@
-import Table, {
+import React, { Component } from 'react';
+import Checkbox from 'material-ui/Checkbox';
+import {
   TableHead,
   TableCell,
-  TableRow,
-  Checkbox
+  TableRow
 } from 'material-ui/Table';
 
 const headerData = [
@@ -11,7 +12,7 @@ const headerData = [
   { id: 'album', label: 'Album', disablePadding: false }
 ];
 
-class TrackTableHead extends React.Component {
+class TrackTableHead extends Component {
   render() {
     const { onSelectAllClick, numSelected, rowCount } = this.props;
 
@@ -28,8 +29,8 @@ class TrackTableHead extends React.Component {
           {headerData.map(header => {
             return (
               <TableCell
-                key={column.id}
-                padding={column.disablePadding ? 'none' : 'default'}
+                key={header.id}
+                padding={header.disablePadding ? 'none' : 'default'}
               >
                 {header.label}
               </TableCell>

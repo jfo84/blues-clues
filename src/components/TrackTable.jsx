@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTracks } from '../actions';
+import { fetchTracks, selectTracks } from '../actions';
+import Checkbox from 'material-ui/Checkbox';
 import Table, {
   TableBody,
   TableCell,
-  TableHead,
   TableRow
 } from 'material-ui/Table';
 
@@ -23,17 +23,19 @@ class TrackTable extends Component {
     this.props.fetchTracks();
   }
 
-  handleSelectAllClick(event, checked) {
+  isSelected = id => this.props.selected.indexOf(id) !== -1;
+
+  handleSelectAllClick = (event, checked) => {
     if (checked) {
       const selected = this.props.data.map(n => n.id);
 
       this.props.selectTracks(selected);
       return;
     }
-    this.props.selectTracks([]]);
-  }
+    this.props.selectTracks([]);
+  };
 
-  handleClick(event, id) {
+  handleClick = (event, id) => {
     const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -52,11 +54,7 @@ class TrackTable extends Component {
     }
 
     this.props.selectTracks(newSelected);
-  }
-
-  isSelected(id) {
-    return this.props.selected.indexOf(id) !== -1;
-  }
+  };
 
   render() {
     const { isFetching, tracks, selected } = this.props;
@@ -72,7 +70,7 @@ class TrackTable extends Component {
           {isFetching ?
             <LoadingRow /> :
             tracks.map((track) => {
-              const isSelected = isSelected(track.id);
+              const isSelected = this.isSelected(track.id);
               const artistNames = track.artists.map(artist => artist.name).join(', ');
             
               return (
@@ -110,7 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTracks: () => { dispatch(fetchTracks()) }
+    fetchTracks: () => { dispatch(fetchTracks()) },
     selectTracks: (selected) => { dispatch(selectTracks(selected)) }
   };
 };
