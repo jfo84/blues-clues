@@ -8,13 +8,7 @@ import Table, {
   TableRow
 } from 'material-ui/Table';
 
-let HeaderColumn = (props) => {
-  return(
-    <TableHeaderColumn style={{ textAlign: 'center' }}>
-      {props.name}
-    </TableHeaderColumn>
-  );
-}
+import TrackTableHead from './TrackTableHead';
 
 let RowColumn = (props) => {
   return(
@@ -90,18 +84,15 @@ class TrackTable extends Component {
   };
 
   render() {
-    const { isFetching, tracks } = this.props;
-    const headerNames = ['Name', 'Artists', 'Album'];
+    const { isFetching, tracks, selected } = this.props;
 
     return(
       <Table>
-        <TableHeader>
-          <TableRow>
-            {headerNames.map((name, index) => {
-              return <HeaderColumn name={name} key={index}/>
-            })}
-          </TableRow>
-        </TableHeader>
+        <TrackTableHead
+          rowCount={tracks.length}
+          numSelected={selected.length}
+          onSelectAllClick={this.handleSelectAllClick}
+        />
         <TableBody displayRowCheckbox={true}>
           {isFetching ?
             <LoadingRow /> :
