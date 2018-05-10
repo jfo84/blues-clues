@@ -10,39 +10,10 @@ import Table, {
 
 import TrackTableHead from './TrackTableHead';
 
-let RowColumn = (props) => {
-  return(
-    <TableRowColumn style={{ textAlign: 'center' }}>
-      {props.children}
-    </TableRowColumn>
-  );
-}
-
-let TrackRow = (props) => {
-  const track = props.track;
-  const artistNames = track.artists.map(artist => artist.name).join(', ');
-
-  return(
-    <TableRow {...props}>
-      <RowColumn>
-        {track.name}
-      </RowColumn>
-      <RowColumn>
-        {artistNames}
-      </RowColumn>
-      <RowColumn>
-        {track.album.name}
-      </RowColumn>
-    </TableRow>
-  );
-};
-
 let LoadingRow = () => {
   return(
     <TableRow>
-      <TableRowColumn>
-        Loading...
-      </TableRowColumn>
+      <TableCell>Loading...</TableCell>
     </TableRow>
   );
 };
@@ -52,7 +23,7 @@ class TrackTable extends Component {
     this.props.fetchTracks();
   }
 
-  handleSelectAllClick = (event, checked) => {
+  handleSelectAllClick(event, checked) {
     if (checked) {
       const selected = this.props.data.map(n => n.id);
 
@@ -60,9 +31,9 @@ class TrackTable extends Component {
       return;
     }
     this.props.selectTracks([]]);
-  };
+  }
 
-  handleClick = (event, id) => {
+  handleClick(event, id) {
     const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -81,7 +52,11 @@ class TrackTable extends Component {
     }
 
     this.props.selectTracks(newSelected);
-  };
+  }
+
+  isSelected(id) {
+    return this.props.selected.indexOf(id) !== -1;
+  }
 
   render() {
     const { isFetching, tracks, selected } = this.props;
@@ -93,13 +68,32 @@ class TrackTable extends Component {
           numSelected={selected.length}
           onSelectAllClick={this.handleSelectAllClick}
         />
-        <TableBody displayRowCheckbox={true}>
+        <TableBody>
           {isFetching ?
             <LoadingRow /> :
-            tracks.map((track, index) => {
-              return <TrackRow track={track} key={index}/>;
-            })
-          }
+            tracks.map((track) => {
+              const isSelected = isSelected(track.id);
+              const artistNames = track.artists.map(artist => artist.name).join(', ');
+            
+              return (
+                <TableRow
+                  hover
+                  onClick={event => this.handleClick(event, track.id)}
+                  role='checkbox'
+                  aria-checked={isSelected}
+                  tabIndex={-1}
+                  key={track.id}
+                  selected={isSelected}
+                >
+                  <TableCell padding='checkbox'>
+                    <Checkbox checked={isSelected} />
+                  </TableCell>
+                  <TableCell>{track.name}</TableCell>
+                  <TableCell>{artistNames}</TableCell>
+                  <TableCell>{track.album.name}</TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     );
