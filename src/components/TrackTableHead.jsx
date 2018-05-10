@@ -7,7 +7,7 @@ import {
 } from 'material-ui/Table';
 
 const headerData = [
-  { id: 'name', label: 'Name', disablePadding: true },
+  { id: 'name', label: 'Name', disablePadding: false },
   { id: 'artists', label: 'Artists', disablePadding: false },
   { id: 'album', label: 'Album', disablePadding: false }
 ];

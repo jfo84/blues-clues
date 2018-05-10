@@ -109,15 +109,16 @@ const receiveRecs = (response) => {
   };
 };
 
-export const fetchRecs = (trackIds) => {
+export const fetchRecs = () => {
   return (dispatch, getState) => {
     dispatch(requestRecs());
 
-    const joinedIds = trackIds.join(',');
+    const { authToken, selectedTracks } = getState();
+
+    const joinedIds = selectedTracks.join(',');
     const params = JSON.stringify({ seed_tracks: joinedIds });
     const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
-    const { authToken } = getState();
     const options = {
       headers: {
         'Authorization': `Bearer ${authToken}`

@@ -6,6 +6,7 @@ const initialState = {
   isFetching: false,
   tracks: [],
   selectedTracks: [],
+  recs: [],
   error: null,
   authToken: null
 };
@@ -40,6 +41,11 @@ const reducer = (state = initialState, action) => {
         ...payload
       };
     case(actionTypes.RECEIVE_RECS):
+      return {
+        ...state,
+        ...payload
+      };
+    case(actionTypes.SELECT_TRACKS):
       return {
         ...state,
         ...payload

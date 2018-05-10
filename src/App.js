@@ -7,8 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
+import Main from './components/Main';
 import Login from './components/Login';
-import TrackTable from './components/TrackTable';
 import AuthSuccess from './components/AuthSuccess';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
@@ -25,9 +25,9 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <PrivateRoute exact path='/' component={TrackTable} hasAuthenticated={this.props.hasAuthenticated}/>
-            <Route path='/auth_success' component={AuthSuccess} />
+            <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated}/>
             <Route path='/login' component={Login} />
+            <Route path='/auth_success' component={AuthSuccess} />
           </Switch>
         </div>
       </Router>

@@ -27,7 +27,7 @@ class TrackTable extends Component {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      const selected = this.props.data.map(n => n.id);
+      const selected = this.props.tracks.map(n => n.id);
 
       this.props.selectTracks(selected);
       return;
