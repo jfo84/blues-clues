@@ -5,18 +5,46 @@ import { fetchRecommendations } from '../actions';
 import Button from 'material-ui/Button';
 
 class RecommendationList extends Component {
+  containerStyle = () => {
+    return { minHeight: '300px' };
+  };
+
+  buttonStyle = () => {
+    return { padding: '5px' };
+  };
   render() {
     const { recommendations } = this.props;
 
     return(
-      <div>
-        <Button style={{ padding: '5px' }} variant='raised' onClick={event => this.props.fetchRecommendations()}>
+      <div style={this.containerStyle()}>
+        <Button style={this.buttonStyle()} variant='raised' onClick={event => this.props.fetchRecommendations()}>
           Show Recommendations
         </Button>
-        {recommendations.length > 0 ?
+        {recommendations && recommendations.length > 0 ?
           (<div>
             {recommendations.map((recommendation) => {
-              return <div></div>;
+              const { album } = recommendation;
+              const { images } = album;
+
+              if (!images) {
+                return null;
+              }
+
+              const mediumImage = images.find(image => image.height === 300)
+
+              return(
+                <div>
+                  {mediumImage ? (
+                    <div>
+                      <div>{album.name}</div>
+                      <img
+                        src={mediumImage.url}
+                        alt=''
+                      />
+                    </div>
+                  ) : (null)}
+                </div>
+              );
             })}
           </div>) : (null)}
       </div>

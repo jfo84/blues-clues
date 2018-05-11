@@ -100,7 +100,7 @@ class TrackTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isFetching: state.isFetching,
+    isFetching: state.fetchingTracks,
     tracks: state.tracks,
     selected: state.selectedTracks
   };

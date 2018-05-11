@@ -3,7 +3,8 @@ import * as actionTypes from './actionTypes';
 const initialState = {
   hasAuthenticated: false,
   isAuthenticating: false,
-  isFetching: false,
+  fetchingTracks: false,
+  fetchingRecommendations: false,
   tracks: [],
   selectedTracks: [],
   recommendations: [],

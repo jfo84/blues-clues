@@ -56,7 +56,7 @@ const requestTracks = () => {
   return {
     type: actionTypes.REQUEST_TRACKS,
     payload: {
-      isFetching: true
+      fetchingTracks: true
     }
   };
 };
@@ -65,7 +65,7 @@ const receiveTracks = (response) => {
   return {
     type: actionTypes.RECEIVE_TRACKS,
     payload: {
-      isFetching: false,
+      fetchingTracks: false,
       tracks: response['items']
     }
   };
@@ -94,7 +94,7 @@ const requestRecommendations = () => {
   return {
     type: actionTypes.REQUEST_RECOMMENDATIONS,
     payload: {
-      isFetching: true
+      fetchingRecommendations: true
     }
   };
 };
@@ -103,8 +103,8 @@ const receiveRecommendations = (response) => {
   return {
     type: actionTypes.RECEIVE_RECOMMENDATIONS,
     payload: {
-      isFetching: false,
-      response
+      fetchingRecommendations: false,
+      recommendations: response['tracks']
     }
   };
 };
@@ -116,7 +116,7 @@ export const fetchRecommendations = () => {
     const { authToken, selectedTracks } = getState();
 
     const joinedIds = selectedTracks.join(',');
-    const params = JSON.stringify({ seed_tracks: joinedIds });
+    const params = { seed_tracks: joinedIds };
     const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
     const options = {
