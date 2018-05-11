@@ -30,12 +30,14 @@ class RecommendationList extends Component {
                 return null;
               }
 
-              const mediumImage = images.find(image => image.height === 300)
+              const artistNames = recommendation.artists.map(artist => artist.name).join(', ');
+              const mediumImage = images.find(image => image.height === 300);
 
               return(
                 <div>
                   {mediumImage ? (
                     <div>
+                      <div>{recommendation.name} - {artistNames}</div>
                       <div>{album.name}</div>
                       <img
                         src={mediumImage.url}
