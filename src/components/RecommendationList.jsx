@@ -18,28 +18,24 @@ const Recommendation = styled.div`
   font-family: "Muli", sans-serif;
 `;
 
-// TODO: Figure out this cleaner API
-// const RecommendationButton = styled(Button)`
-//   margin: 20px;
-// `;
+const RecommendationButton = styled(Button)`
+  && {
+    margin: 20px;
+  }
+`;
 
 class RecommendationList extends Component {
-  buttonStyle = () => {
-    return { margin: '20px' };
-  };
-
   render() {
     const { recommendations, selectedTracks } = this.props;
 
     return(
       <div>
-        <Button
-          style={this.buttonStyle()}
+        <RecommendationButton
           variant='raised'
           disabled={selectedTracks.length === 0}
           onClick={event => this.props.fetchRecommendations()}>
           Show Recommendations
-        </Button>
+        </RecommendationButton>
         {recommendations && recommendations.length > 0 ?
           (<RecommendationContainer>
             {recommendations.map((recommendation) => {
