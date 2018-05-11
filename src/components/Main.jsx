@@ -1,24 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
 import TrackTable from './TrackTable';
 import RecommendationList from './RecommendationList';
 
-class Main extends Component {
-
-  render() {
-    const { recommendations } = this.props;
-
-    return(
-      <div>
-        <TrackTable/>
-        <div>
-          <RecommendationButton />
-          <RecommendationList/>
-        </div>
-      </div>
-    );
-  }
+const Main = () => {
+  return(
+    <div>
+      <TrackTable/>
+      <RecommendationList/>
+    </div>
+  );
 }
 
 export default Main;

@@ -10,7 +10,9 @@ class RecommendationList extends Component {
 
     return(
       <div>
-        <Button variant='raised' onClick={event => this.props.fetchRecommendations()}>Show Recommendations</Button>;
+        <Button style={{ padding: '5px' }} variant='raised' onClick={event => this.props.fetchRecommendations()}>
+          Show Recommendations
+        </Button>
         {recommendations.length > 0 ?
           (<div>
             {recommendations.map((recommendation) => {
