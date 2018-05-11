@@ -8,16 +8,24 @@ import Button from 'material-ui/Button';
 const RecommendationContainer = styled.div`
   display: flex;
   direction: column;
+  flex-wrap: wrap;
 `;
 
 const Recommendation = styled.div`
   flex: 1;
   justify-content: flex-start;
+  margin: 10px;
+  font-family: "Muli", sans-serif;
 `;
+
+// TODO: Figure out this cleaner API
+// const RecommendationButton = styled(Button)`
+//   margin: 20px;
+// `;
 
 class RecommendationList extends Component {
   buttonStyle = () => {
-    return { padding: '20px' };
+    return { margin: '20px' };
   };
 
   render() {
