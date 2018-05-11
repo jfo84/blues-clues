@@ -90,18 +90,18 @@ export const fetchTracks = () => {
   }
 };
 
-const requestRecs = () => {
+const requestRecommendations = () => {
   return {
-    type: actionTypes.REQUEST_RECS,
+    type: actionTypes.REQUEST_RECOMMENDATIONS,
     payload: {
       isFetching: true
     }
   };
 };
 
-const receiveRecs = (response) => {
+const receiveRecommendations = (response) => {
   return {
-    type: actionTypes.RECEIVE_RECS,
+    type: actionTypes.RECEIVE_RECOMMENDATIONS,
     payload: {
       isFetching: false,
       response
@@ -109,9 +109,9 @@ const receiveRecs = (response) => {
   };
 };
 
-export const fetchRecs = () => {
+export const fetchRecommendations = () => {
   return (dispatch, getState) => {
-    dispatch(requestRecs());
+    dispatch(requestRecommendations());
 
     const { authToken, selectedTracks } = getState();
 
@@ -128,7 +128,7 @@ export const fetchRecs = () => {
     return fetch(url, options).then((response) => {
       return response.json();
     }).then((responseJson) => {
-      dispatch(receiveRecs(responseJson))
+      dispatch(receiveRecommendations(responseJson))
     });
   }
 };

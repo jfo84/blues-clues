@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchRecs } from '../actions';
+import { fetchRecommendations } from '../actions';
+
+import Button from 'material-ui/Button';
 
 class RecommendationList extends Component {
   render() {
     const { recommendations } = this.props;
 
+    {recommendations ? <RecommendationList/> : null}
+
     return(
       <div>
-        {recommendations.map((recommendation) => {
-          return <div></div>;
-        })}
+        <Button variant='raised' onClick={event => this.props.fetchRecommendations()}>Show Recommendations</Button>;
+        {recommendations.length > 0 ?
+          (<div>
+            {recommendations.map((recommendation) => {
+              return <div></div>;
+            })}
+          </div>) : (null)}
       </div>
     );
   }
@@ -18,13 +26,13 @@ class RecommendationList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    recommendations: state.recs
+    recommendations: state.recommendations
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchRecs: () => { dispatch(fetchRecs()) }
+    fetchRecommendations: () => { dispatch(fetchRecommendations()) }
   };
 };
 

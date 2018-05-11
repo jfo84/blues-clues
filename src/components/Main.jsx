@@ -12,16 +12,13 @@ class Main extends Component {
     return(
       <div>
         <TrackTable/>
-        {recommendations ? <RecommendationList/> : null}
+        <div>
+          <RecommendationButton />
+          <RecommendationList/>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    recommendations: state.recs
-  };
-};
-
-export default connect(mapStateToProps, null)(Main);
+export default Main;
