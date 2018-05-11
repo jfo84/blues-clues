@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 
 const RecommendationContainer = styled.div`
   display: flex;
-  direction: row;
+  direction: column;
 `;
 
 const Recommendation = styled.div`
@@ -32,37 +32,35 @@ class RecommendationList extends Component {
           onClick={event => this.props.fetchRecommendations()}>
           Show Recommendations
         </Button>
-        <RecommendationContainer>
-          {recommendations && recommendations.length > 0 ?
-            (<div>
-              {recommendations.map((recommendation) => {
-                const { album } = recommendation;
-                const { images } = album;
+        {recommendations && recommendations.length > 0 ?
+          (<RecommendationContainer>
+            {recommendations.map((recommendation) => {
+              const { album } = recommendation;
+              const { images } = album;
 
-                if (!images) {
-                  return null;
-                }
+              if (!images) {
+                return null;
+              }
 
-                const artistNames = recommendation.artists.map(artist => artist.name).join(', ');
-                const mediumImage = images.find(image => image.height === 300);
+              const artistNames = recommendation.artists.map(artist => artist.name).join(', ');
+              const mediumImage = images.find(image => image.height === 300);
 
-                return(
-                  <Recommendation>
-                    {mediumImage ? (
-                      <div>
-                        <div>{recommendation.name} - {artistNames}</div>
-                        <div>{album.name}</div>
-                        <img
-                          src={mediumImage.url}
-                          alt=''
-                        />
-                      </div>
-                    ) : (null)}
-                  </Recommendation>
-                );
-              })}
-            </div>) : (null)}
-        </RecommendationContainer>
+              return(
+                <Recommendation>
+                  {mediumImage ? (
+                    <div>
+                      <div>{recommendation.name} - {artistNames}</div>
+                      <div>{album.name}</div>
+                      <img
+                        src={mediumImage.url}
+                        alt=''
+                      />
+                    </div>
+                  ) : (null)}
+                </Recommendation>
+              );
+            })}
+          </RecommendationContainer>) : (null)}
       </div>
     );
   }
