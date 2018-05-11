@@ -13,11 +13,15 @@ class RecommendationList extends Component {
     return { padding: '5px' };
   };
   render() {
-    const { recommendations } = this.props;
+    const { recommendations, selectedTracks } = this.props;
 
     return(
       <div style={this.containerStyle()}>
-        <Button style={this.buttonStyle()} variant='raised' onClick={event => this.props.fetchRecommendations()}>
+        <Button
+          style={this.buttonStyle()}
+          variant='raised'
+          disabled={selectedTracks.length === 0}
+          onClick={event => this.props.fetchRecommendations()}>
           Show Recommendations
         </Button>
         {recommendations && recommendations.length > 0 ?
@@ -56,7 +60,8 @@ class RecommendationList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    recommendations: state.recommendations
+    recommendations: state.recommendations,
+    selectedTracks: state.selectedTracks
   };
 };
 
