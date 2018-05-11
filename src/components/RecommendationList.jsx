@@ -8,8 +8,6 @@ class RecommendationList extends Component {
   render() {
     const { recommendations } = this.props;
 
-    {recommendations ? <RecommendationList/> : null}
-
     return(
       <div>
         <Button variant='raised' onClick={event => this.props.fetchRecommendations()}>Show Recommendations</Button>;
