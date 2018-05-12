@@ -5,13 +5,13 @@ import { fetchRecommendations } from '../actions';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
 
-const RecommendationContainer = styled.div`
+let RecommendationContainer = styled.div`
   display: flex;
   direction: column;
   flex-wrap: wrap;
 `;
 
-const Recommendation = styled.div`
+let Recommendation = styled.div`
   flex: 1;
   justify-content: flex-start;
   margin: 10px;
