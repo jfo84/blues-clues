@@ -15,7 +15,12 @@ let Recommendation = styled.div`
   flex: 1;
   justify-content: flex-start;
   margin: 10px;
+  min-height: 400px;
   font-family: "Muli", sans-serif;
+`;
+
+const Description = styled.div`
+  margin: 5px;
 `;
 
 const RecommendationButton = styled(Button)`
@@ -38,7 +43,7 @@ class RecommendationList extends Component {
         </RecommendationButton>
         {recommendations && recommendations.length > 0 ?
           (<RecommendationContainer>
-            {recommendations.map((recommendation) => {
+            {recommendations.map((recommendation, index) => {
               const { album } = recommendation;
               const { images } = album;
 
@@ -51,9 +56,13 @@ class RecommendationList extends Component {
 
               return(
                 mediumImage ?
-                  (<Recommendation>
-                    <div>{recommendation.name} - {artistNames}</div>
-                    <div>{album.name}</div>
+                  (<Recommendation key={index}>
+                    <Description style={{ minHeight: '40px' }}>
+                      {recommendation.name} - {artistNames}
+                    </Description>
+                    <Description style={{ marginBottom: '10px' }}>
+                      {album.name}
+                    </Description>
                     <img
                       src={mediumImage.url}
                       alt=''
