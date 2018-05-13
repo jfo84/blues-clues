@@ -12,6 +12,7 @@ let RecommendationContainer = styled.div`
 `;
 
 let Recommendation = styled.div`
+  class: "recommendation";
   flex: 1;
   justify-content: flex-start;
   margin: 10px;
@@ -25,6 +26,7 @@ const Description = styled.div`
 
 const RecommendationButton = styled(Button)`
   && {
+    class: "recommendation-button";
     margin: 20px;
   }
 `;
