@@ -50,18 +50,15 @@ class RecommendationList extends Component {
               const mediumImage = images.find(image => image.height === 300);
 
               return(
-                <Recommendation>
-                  {mediumImage ? (
-                    <div>
-                      <div>{recommendation.name} - {artistNames}</div>
-                      <div>{album.name}</div>
-                      <img
-                        src={mediumImage.url}
-                        alt=''
-                      />
-                    </div>
-                  ) : (null)}
-                </Recommendation>
+                mediumImage ?
+                  (<Recommendation>
+                    <div>{recommendation.name} - {artistNames}</div>
+                    <div>{album.name}</div>
+                    <img
+                      src={mediumImage.url}
+                      alt=''
+                    />
+                  </Recommendation>) : (null)
               );
             })}
           </RecommendationContainer>) : (null)}
