@@ -4,8 +4,12 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import thunk from 'redux-thunk'
 
 import RecommendationList from './RecommendationList';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 describe('Recommendation request flow', () => {
   let httpMock;
@@ -67,7 +71,7 @@ describe('Recommendation request flow', () => {
 
   beforeEach(() => {
     httpMock = new MockAdapter(axios);
-    store = configureStore(initialState);
+    store = mockStore(initialState);
   });
 
   it('should fetch and render recommendations', async () => {
