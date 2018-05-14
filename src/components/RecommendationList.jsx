@@ -12,7 +12,6 @@ let RecommendationContainer = styled.div`
 `;
 
 let Recommendation = styled.div`
-  class: "recommendation";
   flex: 1;
   justify-content: flex-start;
   margin: 10px;
@@ -26,7 +25,6 @@ const Description = styled.div`
 
 const RecommendationButton = styled(Button)`
   && {
-    class: "recommendation-button";
     margin: 20px;
   }
 `;
@@ -40,11 +38,13 @@ class RecommendationList extends Component {
         <RecommendationButton
           variant='raised'
           disabled={selectedTracks.length === 0}
-          onClick={event => this.props.fetchRecommendations()}>
+          onClick={event => this.props.fetchRecommendations()}
+          className={'recommendation-button'}
+        >
           Show Recommendations
         </RecommendationButton>
         {recommendations && recommendations.length > 0 ?
-          (<RecommendationContainer>
+          (<RecommendationContainer className={'recommendation-container'}>
             {recommendations.map((recommendation, index) => {
               const { album } = recommendation;
               const { images } = album;
@@ -63,7 +63,7 @@ class RecommendationList extends Component {
                   // But it's probably way too expensive for such a small UI tweak
                   // They do have a bulk API though:
                   // https://beta.developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/
-                  (<Recommendation key={index}>
+                  (<Recommendation key={index} className={'recommendation' + index}>
                     <Description style={{ minHeight: '40px' }}>
                       {recommendation.name} - {artistNames}
                     </Description>
