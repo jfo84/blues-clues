@@ -1,3 +1,4 @@
+import axios from 'axios';
 import queryString from 'query-string';
 
 import * as actionTypes from './actionTypes';
@@ -66,7 +67,7 @@ const receiveTracks = (response) => {
     type: actionTypes.RECEIVE_TRACKS,
     payload: {
       fetchingTracks: false,
-      tracks: response['items']
+      tracks: response.data.items
     }
   };
 };
@@ -82,10 +83,8 @@ export const fetchTracks = () => {
       }
     };
 
-    return fetch(TRACKS_URL, options).then((response) => {
-      return response.json();
-    }).then((responseJson) => {
-      dispatch(receiveTracks(responseJson))
+    return axios.get(TRACKS_URL, options).then((response) => {
+      dispatch(receiveTracks(response))
     });
   }
 };
@@ -104,7 +103,7 @@ const receiveRecommendations = (response) => {
     type: actionTypes.RECEIVE_RECOMMENDATIONS,
     payload: {
       fetchingRecommendations: false,
-      recommendations: response['tracks']
+      recommendations: response.data.tracks
     }
   };
 };
@@ -117,18 +116,16 @@ export const fetchRecommendations = () => {
 
     const joinedIds = selectedTracks.join(',');
     const params = { seed_tracks: joinedIds };
-    const url = `${RECS_URL}?${queryString.stringify(params)}`;
 
     const options = {
+      params,
       headers: {
         'Authorization': `Bearer ${authToken}`
       }
     };
 
-    return fetch(url, options).then((response) => {
-      return response.json();
-    }).then((responseJson) => {
-      dispatch(receiveRecommendations(responseJson))
+    return axios.get(RECS_URL, options).then((response) => {
+      dispatch(receiveRecommendations(response))
     });
   }
 };
