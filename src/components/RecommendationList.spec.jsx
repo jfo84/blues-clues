@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 
 import RecommendationList from './RecommendationList';
 
