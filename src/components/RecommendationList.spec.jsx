@@ -20,52 +20,50 @@ describe('Recommendation request flow', () => {
     selectedTracks: ['1', '2']
   };
 
-  const data = {
-    tracks: [
-      {
-        id: 1,
-        name: 'Foo It Up',
-        album: {
-          name: 'Hoppin Foos All Day',
-          images: [
-            {
-              height: 300,
-              url: 'http://foo.com'
-            }
-          ]
-        },
-        artists: [
+  const tracks = [
+    {
+      id: 1,
+      name: 'Foo It Up',
+      album: {
+        name: 'Hoppin Foos All Day',
+        images: [
           {
-            name: 'Fooby'
-          },
-          {
-            name: 'Barbie'
+            height: 300,
+            url: 'http://foo.com'
           }
         ]
       },
-      {
-        id: 2,
-        name: 'Little Foos',
-        album: {
-          name: 'Hoppin Foos All Day',
-          images: [
-            {
-              height: 300,
-              url: 'http://foo.com'
-            }
-          ]
+      artists: [
+        {
+          name: 'Fooby'
         },
-        artists: [
+        {
+          name: 'Barbie'
+        }
+      ]
+    },
+    {
+      id: 2,
+      name: 'Little Foos',
+      album: {
+        name: 'Hoppin Foos All Day',
+        images: [
           {
-            name: 'Fooby'
-          },
-          {
-            name: 'Barbie'
+            height: 300,
+            url: 'http://foo.com'
           }
         ]
-      }
-    ]
-  };
+      },
+      artists: [
+        {
+          name: 'Fooby'
+        },
+        {
+          name: 'Barbie'
+        }
+      ]
+    }
+  ];
 
   const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
 
@@ -77,20 +75,20 @@ describe('Recommendation request flow', () => {
   it('should fetch and render recommendations', async () => {
     httpMock.onGet('https://api.spotify.com/v1/recommendations?seed_tracks=1,2').reply(200, {
       status: 'success',
-      data
+      tracks
     });
 
     const wrapper = mount(<Provider store={store}><RecommendationList/></Provider>);
-    wrapper.find('.recommendation-button').simulate('click');
+    wrapper.find('button.recommendation-button').simulate('click');
 
     await flushAllPromises();
     wrapper.update();
 
-    const recommendationOne = wrapper.find('.recommendation1');
+    const recommendationOne = wrapper.find('div.recommendation1');
     expect(recommendationOne.exists()).toBe(true);
     expect(recommendationOne.children.first().text()).toBe('Foo It Up - Fooby, Barbie');
 
-    const recommendationTwo = wrapper.find('.recommendation2');
+    const recommendationTwo = wrapper.find('div.recommendation2');
     expect(recommendationTwo.exists()).toBe(true);
     expect(recommendationTwo.children.first().text()).toBe('Little Foos - Fooby, Barbie');
   });
