@@ -16,6 +16,53 @@ describe('Recommendation request flow', () => {
     selectedTracks: ['1', '2']
   };
 
+  const data = {
+    tracks: [
+      {
+        id: 1,
+        name: 'Foo It Up',
+        album: {
+          name: 'Hoppin Foos All Day',
+          images: [
+            {
+              height: 300,
+              url: 'http://foo.com'
+            }
+          ]
+        },
+        artists: [
+          {
+            name: 'Fooby'
+          },
+          {
+            name: 'Barbie'
+          }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Little Foos',
+        album: {
+          name: 'Hoppin Foos All Day',
+          images: [
+            {
+              height: 300,
+              url: 'http://foo.com'
+            }
+          ]
+        },
+        artists: [
+          {
+            name: 'Fooby'
+          },
+          {
+            name: 'Barbie'
+          }
+        ]
+      }
+    ]
+  };
+
   const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
 
   beforeEach(() => {
@@ -26,52 +73,7 @@ describe('Recommendation request flow', () => {
   it('should fetch and render recommendations', async () => {
     httpMock.onGet('https://api.spotify.com/v1/recommendations?seed_tracks=1,2').reply(200, {
       status: 'success',
-      data: {
-        tracks: [
-          {
-            id: 1,
-            name: 'Foo It Up',
-            album: {
-              name: 'Hoppin Foos All Day',
-              images: [
-                {
-                  height: 300,
-                  url: 'http://foo.com'
-                }
-              ]
-            },
-            artists: [
-              {
-                name: 'Fooby'
-              },
-              {
-                name: 'Barbie'
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Little Foos',
-            album: {
-              name: 'Hoppin Foos All Day',
-              images: [
-                {
-                  height: 300,
-                  url: 'http://foo.com'
-                }
-              ]
-            },
-            artists: [
-              {
-                name: 'Fooby'
-              },
-              {
-                name: 'Barbie'
-              }
-            ]
-          }
-        ]
-      }
+      data
     });
 
     const wrapper = mount(<Provider store={store}><RecommendationList/></Provider>);
