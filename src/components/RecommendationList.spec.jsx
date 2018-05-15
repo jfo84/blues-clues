@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 
 import RecommendationList from './RecommendationList';
-
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
+import reducer from '../reducer';
 
 describe('Recommendation request flow', () => {
   let httpMock;
@@ -68,7 +66,11 @@ describe('Recommendation request flow', () => {
 
   beforeEach(() => {
     httpMock = new MockAdapter(axios);
-    store = mockStore(initialState);
+    store = createStore(
+      reducer,
+      initialState,
+      applyMiddleware(thunk)
+    );
   });
 
   it('should fetch and render recommendations', async () => {
@@ -83,12 +85,12 @@ describe('Recommendation request flow', () => {
     await flushAllPromises();
     wrapper.update();
 
-    const recommendationOne = wrapper.find('div.recommendation1');
+    const recommendationOne = wrapper.find('div.recommendation0');
     expect(recommendationOne.exists()).toBe(true);
-    expect(recommendationOne.children.first().text()).toBe('Foo It Up - Fooby, Barbie');
+    expect(recommendationOne.children().first().text()).toBe('Foo It Up - Fooby, Barbie');
 
-    const recommendationTwo = wrapper.find('div.recommendation2');
+    const recommendationTwo = wrapper.find('div.recommendation1');
     expect(recommendationTwo.exists()).toBe(true);
-    expect(recommendationTwo.children.first().text()).toBe('Little Foos - Fooby, Barbie');
+    expect(recommendationTwo.children().first().text()).toBe('Little Foos - Fooby, Barbie');
   });
 });
