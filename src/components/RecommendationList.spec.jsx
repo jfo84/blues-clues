@@ -87,10 +87,12 @@ describe('Recommendation request flow', () => {
 
     const recommendationOne = wrapper.find('div.recommendation0');
     expect(recommendationOne.exists()).toBe(true);
-    expect(recommendationOne.children().first().text()).toBe('Foo It Up - Fooby, Barbie');
+    expect(recommendationOne.childAt(0).text()).toBe('Foo It Up - Fooby, Barbie');
+    expect(recommendationOne.childAt(1).text()).toBe('Hoppin Foos All Day');
 
     const recommendationTwo = wrapper.find('div.recommendation1');
     expect(recommendationTwo.exists()).toBe(true);
     expect(recommendationTwo.children().first().text()).toBe('Little Foos - Fooby, Barbie');
+    expect(recommendationTwo.childAt(1).text()).toBe('Hoppin Foos All Day');
   });
 });
