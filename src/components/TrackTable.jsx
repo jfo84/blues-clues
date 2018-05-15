@@ -69,7 +69,7 @@ class TrackTable extends Component {
         <TableBody>
           {isFetching ?
             <LoadingRow /> :
-            tracks.map((track) => {
+            tracks.map((track, index) => {
               const isSelected = this.isSelected(track.id);
               const artistNames = track.artists.map(artist => artist.name).join(', ');
             
@@ -82,13 +82,14 @@ class TrackTable extends Component {
                   tabIndex={-1}
                   key={track.id}
                   selected={isSelected}
+                  className={'track-row' + index}
                 >
-                  <TableCell padding='checkbox'>
+                  <TableCell className={'track-checkbox' + index} padding='checkbox'>
                     <Checkbox checked={isSelected} />
                   </TableCell>
-                  <TableCell>{track.name}</TableCell>
-                  <TableCell>{artistNames}</TableCell>
-                  <TableCell>{track.album.name}</TableCell>
+                  <TableCell className={'track-name' + index}>{track.name}</TableCell>
+                  <TableCell className={'artist-names' + index}>{artistNames}</TableCell>
+                  <TableCell className={'album-name' + index}>{track.album.name}</TableCell>
                 </TableRow>
               );
             })}
