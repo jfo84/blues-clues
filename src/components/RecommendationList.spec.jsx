@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -73,7 +72,7 @@ describe('Recommendation request flow', () => {
   });
 
   it('should fetch and render recommendations', async () => {
-    httpMock.onGet('https://api.spotify.com/v1/recommendations?seed_tracks=1,2').reply(200, {
+    httpMock.onGet('https://api.spotify.com/v1/recommendations').reply(200, {
       status: 'success',
       tracks
     });
