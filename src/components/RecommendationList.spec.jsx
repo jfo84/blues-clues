@@ -92,7 +92,7 @@ describe('Recommendation request flow', () => {
 
     const recommendationTwo = wrapper.find('div.recommendation1');
     expect(recommendationTwo.exists()).toBe(true);
-    expect(recommendationTwo.children().first().text()).toBe('Little Foos - Fooby, Barbie');
+    expect(recommendationTwo.childAt(0).text()).toBe('Little Foos - Fooby, Barbie');
     expect(recommendationTwo.childAt(1).text()).toBe('Hoppin Foos All Day');
   });
 });
