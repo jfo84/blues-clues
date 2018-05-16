@@ -31,14 +31,14 @@ const RecommendationButton = styled(Button)`
 
 class RecommendationList extends Component {
   render() {
-    const { recommendations, selectedTracks } = this.props;
+    const { fetchRecommendations, recommendations, selectedTracks } = this.props;
 
     return(
       <div>
         <RecommendationButton
           variant='raised'
           disabled={selectedTracks.length === 0}
-          onClick={event => this.props.fetchRecommendations()}
+          onClick={event => fetchRecommendations()}
           className={'recommendation-button'}
         >
           Show Recommendations
