@@ -38,12 +38,17 @@ describe('Track request flow', () => {
 
     const wrapper = mount(<Provider store={store}><TrackTable/></Provider>);
 
+    // Check that our table head renders
+    expect(wrapper.find('.all-tracks-checkbox').exists()).toBe(true);
+
     await flushAllPromises();
     wrapper.update();
 
     let track, trackName, artistNames, albumName;
 
     track = wrapper.find('tr.track-row0');
+    expect(track.exists()).toBe(true);
+
     trackName = track.find('td.track-name0');
     expect(trackName.text()).toBe('Foo It Up');
 
@@ -54,6 +59,8 @@ describe('Track request flow', () => {
     expect(albumName.text()).toBe('Hoppin Foos All Day');
 
     track = wrapper.find('tr.track-row1');
+    expect(track.exists()).toBe(true);
+
     trackName = track.find('td.track-name1');
     expect(trackName.text()).toBe('Little Foos');
 
