@@ -45,10 +45,12 @@ describe('Recommendation request flow', () => {
     expect(recommendationOne.exists()).toBe(true);
     expect(recommendationOne.childAt(0).text()).toBe('Foo It Up - Fooby, Barbie');
     expect(recommendationOne.childAt(1).text()).toBe('Hoppin Foos All Day');
+    expect(recommendationOne.childAt(2).is('img')).toBe(true);
 
     const recommendationTwo = wrapper.find('div.recommendation1');
     expect(recommendationTwo.exists()).toBe(true);
     expect(recommendationTwo.childAt(0).text()).toBe('Little Foos - Fooby, Barbie');
     expect(recommendationTwo.childAt(1).text()).toBe('Hoppin Foos All Day');
+    expect(recommendationTwo.childAt(2).is('img')).toBe(true);
   });
 });
