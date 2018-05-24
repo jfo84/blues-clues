@@ -9,6 +9,15 @@ const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks';
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
+export const fetchAuth = () => {
+  return (dispatch) => {
+    dispatch(requestAuth());
+    dispatch(requestInitialAuth());
+
+    window.location.href = '/api/login';
+  }
+};
+
 const requestAuth = () => {
   return {
     type: actionTypes.REQUEST_AUTH,
@@ -21,36 +30,53 @@ const requestAuth = () => {
 
 // Normally only fetchAuth would be exported but since receiveAuth is handled
 // in AuthSuccess after redirect from Spotify this is also exported
-export const receiveAuth = (authToken, error) => {
+export const receiveAuth = () => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
       hasAuthenticated: true,
-      isAuthenticating: false,
-      authToken,
-      error
+      isAuthenticating: false
     }
   };
 };
 
-export const fetchAuth = () => {
+const requestInitialAuth = () => {
+  return {
+    type: actionTypes.REQUEST_INITIAL_AUTH,
+    payload: {}
+  };
+};
+
+const receiveInitialAuth = () => {
+  return {
+    type: actionTypes.RECEIVE_INITIAL_AUTH,
+    payload: {}
+  };
+};
+
+export const handleAuthCallback = () => {
   return (dispatch) => {
-    dispatch(requestAuth());
+    dispatch(receiveInitialAuth());
+    dispatch(requestFinalAuth());
 
-    const params = { 
-      client_id: clientId, 
-      response_type: 'token', 
-      redirect_uri: 'http://localhost:3000/auth_success/', 
-      scope: 'user-top-read'
-    };
-    const url = `${AUTH_URL}?${queryString.stringify(params)}`;
+    window.location.href = '/api/callback';
+  };
+};
 
-    window.location.href = url;
-    // Could dispatch another action here but the UI doesn't need to
-    // know anything while at the Spotify auth URL
-    // AuthSuccess instead receives the redirect query params after which
-    // an action is dispatched and state changed
-  }
+const requestFinalAuth = () => {
+  return {
+    type: actionTypes.REQUEST_FINAL_AUTH,
+    payload: {}
+  };
+};
+
+export const receiveFinalAuth = () => {
+  return (dispatch) => {
+    dispatch(receiveFinalAuth());
+    dispatch(receiveAuth());
+
+
+  };
 };
 
 const requestTracks = () => {

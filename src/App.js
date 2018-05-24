@@ -9,7 +9,7 @@ import {
 
 import Main from './components/Main';
 import Login from './components/Login';
-import AuthSuccess from './components/AuthSuccess';
+import Auth from './components/Auth';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -27,7 +27,7 @@ class App extends Component {
           <Switch>
             <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated}/>
             <Route path='/login' component={Login} />
-            <Route path='/auth_success' component={AuthSuccess} />
+            <Route path='/auth' component={Auth} />
           </Switch>
         </div>
       </Router>
