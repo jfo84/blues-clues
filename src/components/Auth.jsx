@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { receiveAuth } from '../actions';
+import { handleAuthCallback, failAuth } from '../actions';
 import { 
   Redirect,
   Link,
@@ -26,7 +26,7 @@ const FlexLink = styled(Link)`
 
 class Auth extends Component {
   componentWillMount() {
-    const paramsString = this.props.location.hash;
+    const paramsString = this.props.location.search;
     const params = this.parseQuery(paramsString);
     const cookie = document.cookie;
     const cookieParams = this.parseQuery(cookie);
@@ -38,9 +38,11 @@ class Auth extends Component {
     if (error) {
       this.setState({ error });
       return;
+    } else {
+      this.setState({ error: null });
     }
 
-    if (cookieParams['spotify_auth_state'] === params['state']) {
+    if (cookieParams['spotify_auth_state'] === state) {
       this.props.handleAuthCallback();
     } else {
       // This should only happen due to a bad actor so we hard fail
@@ -88,7 +90,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAuthCallback: () => { dispatch(handleAuthCallback()) }
+    handleAuthCallback: () => { dispatch(handleAuthCallback()) },
+    failAuth: () => { dispatch(failAuth()) }
   };
 };
 

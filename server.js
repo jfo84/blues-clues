@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = 'http://localhost:3000/auth_success/';
+const redirect_uri = 'http://localhost:3000/auth/';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,7 +32,6 @@ app.get('/api/login', function(req, res) {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
   const scope = 'user-top-read';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -105,7 +104,8 @@ app.get('/api/refresh_token', function(req, res) {
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
+      const access_token = body.access_token;
+
       res.send({
         'access_token': access_token
       });

@@ -1,11 +1,7 @@
 import axios from 'axios';
-import queryString from 'query-string';
 
 import * as actionTypes from './actionTypes';
 
-const clientId = '2658c55e1c16476a8136334d197ddfc6';
-
-const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks';
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
@@ -14,7 +10,10 @@ export const fetchAuth = () => {
     dispatch(requestAuth());
     dispatch(requestInitialAuth());
 
-    window.location.href = '/api/login';
+    return axios.get('/api/login').then((response) => {
+      // TODO: This is hit twice in the flow and shouldn't be
+      dispatch(receiveInitialAuth());
+    });
   }
 };
 
@@ -59,7 +58,10 @@ export const handleAuthCallback = () => {
     dispatch(receiveInitialAuth());
     dispatch(requestFinalAuth());
 
-    window.location.href = '/api/callback';
+    return axios.get('/api/callback').then((response) => {
+      // TODO: This is hit twice in the flow and shouldn't be
+      dispatch(receiveFinalAuth());
+    });
   };
 };
 
@@ -71,11 +73,16 @@ const requestFinalAuth = () => {
 };
 
 export const receiveFinalAuth = () => {
-  return (dispatch) => {
-    dispatch(receiveFinalAuth());
-    dispatch(receiveAuth());
+  return {
+    type: actionTypes.RECEIVE_FINAL_AUTH,
+    payload: {}
+  };
+};
 
-
+export const failAuth = () => {
+  return {
+    type: actionTypes.FAIL_AUTH,
+    payload: {}
   };
 };
 
