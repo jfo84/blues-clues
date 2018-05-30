@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = 'http://localhost:3000/auth/';
+const redirect_uri = 'http://localhost:3000/api/callback/';
 
 const app = express();
 const port = process.env.PORT || 5000;

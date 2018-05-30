@@ -8,14 +8,12 @@ import {
 } from 'react-router-dom';
 
 import Main from './components/Main';
-import Login from './components/Login';
-import Auth from './components/Auth';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
     hasAuthenticated === true
       ? <Component {...props} />
-      : <Redirect to='/login' />
+      : <Redirect to='/api/login' />
   )} />
 );
 
@@ -25,9 +23,7 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated}/>
-            <Route path='/login' component={Login} />
-            <Route path='/auth' component={Auth} />
+            <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated} />
           </Switch>
         </div>
       </Router>
