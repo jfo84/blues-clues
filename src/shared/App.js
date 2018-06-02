@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
-  BrowserRouter as Router,
+import {
   Route,
   Switch,
   Redirect
@@ -20,13 +19,11 @@ const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
 class App extends Component {
   render() {
     return(
-      <Router>
-        <div>
-          <Switch>
-            <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated} />
-          </Switch>
-        </div>
-      </Router>
+      <div>
+        <Switch>
+          <PrivateRoute exact path='/' component={Main} hasAuthenticated={this.props.hasAuthenticated} />
+        </Switch>
+      </div>
     );
   }
 }

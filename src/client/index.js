@@ -10,7 +10,7 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import { createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 
-import App from './App';
+import App from '../shared/App';
 import reducer from './reducer';
 
 const theme = createMuiTheme({

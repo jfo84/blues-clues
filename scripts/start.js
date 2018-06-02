@@ -28,7 +28,7 @@ const {
 } = require('react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('react-dev-utils/openBrowser');
 const paths = require('../config/paths');
-const config = require('../config/webpack.config.dev');
+const config = require('../config/webpack.config.client.dev');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
@@ -69,8 +69,11 @@ choosePort(HOST, DEFAULT_PORT)
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
-    // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+
+    process.env.REACT_APP_CLIENT_PORT = port;
+    const configWebpackClient = require('../config/webpack.config.client.dev');
+    const compiler = webpack(configWebpackClient);
+
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -79,18 +82,60 @@ choosePort(HOST, DEFAULT_PORT)
       proxyConfig,
       urls.lanUrlForConfig
     );
-    const devServer = new WebpackDevServer(compiler, serverConfig);
+
+    const clientServer = new WebpackDevServer(compiler, serverConfig);
+
     // Launch WebpackDevServer.
-    devServer.listen(port, HOST, err => {
+    clientServer.listen(port, HOST, err => {
       if (err) {
         return console.log(err);
       }
       if (isInteractive) {
         clearConsole();
       }
-      console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
-    });
+      console.log(chalk.cyan(`Starting the client on port ${port}...\n`));
+
+      choosePort(HOST, DEFAULT_SERVER_PORT).then(portServer => {
+        if (portServer == null) {
+          // We have not found a port.
+          return;
+        }
+
+        process.env.REACT_APP_SERVER_PORT = portServer;
+        const configWebpackServer = require('../config/webpack.config.server');
+        const compiler = webpack(configWebpackServer);
+        const urls = prepareUrls(protocol, HOST, portServer);
+        let isServerRunning;
+
+        compiler.watch({ // watch options:
+          aggregateTimeout: 300,
+        }, function(err, stats) {
+          if (err)
+            console.log('error on webpack server', err);
+
+          if (!isServerRunning) {
+            isServerRunning = true
+            const nodemon = exec('nodemon --watch build/server build/server/bundle.js build/server/bundle.js')
+
+            // This is to outpout in the terminal the child process
+            nodemon.stdout.on('data', function (data) {
+              console.log(data.toString());
+            });
+            nodemon.on('exit', function (code) {
+              console.log('nodemon process exited with code ' + code.toString());
+            });
+
+            console.log(chalk.yellow(`Starting the server on port ${portServer}...\n`));
+            setTimeout(() => { openBrowser(urls.localUrlForBrowser) }, 1000);
+          }
+        });
+      })
+      .catch(err => {
+        if (err && err.message) {
+          console.log(err.message);
+        }
+        process.exit(1);
+      });
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {
