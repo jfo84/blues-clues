@@ -72,6 +72,8 @@
   },
   "scripts": {
     "serve": "NODE_ENV=production node ./build/server/bundle.js",
+    "start": "node scripts/start.js",
+    "nodemon": "nodemon --watch build/server build/server/bundle.js build/server/bundle.js",
     "build-client": "node scripts/build-client.js",
     "build-server": "node scripts/build-server.js",
     "build": "npm run build-client && npm run build-server",
@@ -102,10 +104,8 @@
       "^react-native$": "react-native-web"
     },
     "moduleFileExtensions": [
-      "web.js",
       "js",
       "json",
-      "web.jsx",
       "jsx",
       "node",
       "mjs"

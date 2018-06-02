@@ -14,6 +14,7 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 
+const { exec } = require('child_process');
 const fs = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
@@ -35,12 +36,13 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appIndexJs])) {
   process.exit(1);
 }
 
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const DEFAULT_SERVER_PORT = parseInt(process.env.PORT, 10) || 5678;
 const HOST = process.env.HOST || '0.0.0.0';
 
 if (process.env.HOST) {
@@ -135,7 +137,8 @@ choosePort(HOST, DEFAULT_PORT)
           console.log(err.message);
         }
         process.exit(1);
-      });
+      })
+    });
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {
