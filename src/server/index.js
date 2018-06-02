@@ -1,5 +1,3 @@
-'use strict';
-
 /** Module dependencies. */
 require('dotenv').config();
 
@@ -11,6 +9,7 @@ const path         = require('path');
 const logger       = require('morgan');
 const cors         = require('cors');
 const sourceMapSupport = require('source-map-support');
+const proxy = require('http-proxy-middleware');
 
 const routes       = require('./routes');
 const render       = require('./render');

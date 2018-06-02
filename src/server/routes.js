@@ -1,6 +1,5 @@
-'use strict';
-
 const querystring = require('querystring');
+const request = require('request');
 const express = require('express');
 const router = new express.Router();
 
@@ -38,7 +37,7 @@ router.get('/api/login', function(req, res) {
 router.get('/api/callback', function(req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+  var storedState = req.cookies ? req.cookies[STATE_KEY] : null;
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -46,7 +45,7 @@ router.get('/api/callback', function(req, res) {
         error: 'state_mismatch'
       }));
   } else {
-    res.clearCookie(stateKey);
+    res.clearCookie(STATE_KEY);
     var authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {

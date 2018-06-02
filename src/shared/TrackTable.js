@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTracks, selectTracks } from '../actions';
+import { fetchTracks, selectTracks } from './actions';
 import Checkbox from 'material-ui/Checkbox';
 import Table, {
   TableBody,

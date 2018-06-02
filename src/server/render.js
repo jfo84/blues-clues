@@ -8,6 +8,7 @@ const App = require('../shared/App');
 const reducer = require('../shared/reducers/app');
 
 const store = Redux.createStore(reducer);
+const preloadedState = store.getState();
 
 const DEV = process.env.NODE_ENV === 'development';
 const assetManifest = JSON.parse(process.env.REACT_APP_ASSET_MANIFEST || '{}');
@@ -19,7 +20,7 @@ const css = DEV ?
   '' : // in DEV the css is hot loaded
   `<link href="/${assetManifest['main.css']}" media="all" rel="stylesheet" />`;
 
-const renderFullPage = (component, preloadedState) => `
+const renderFullPage = (component) => `
   <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -51,7 +52,6 @@ export default (req, res) => {
       <ReactRouter.StaticRouter context={{}} location={req.url}>
           <App/>
       </ReactRouter.StaticRouter>
-    </ReactRedux.Provider>,
-    preloadedState
+    </ReactRedux.Provider>
   ));
 }
