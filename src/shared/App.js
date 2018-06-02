@@ -6,7 +6,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Main from './components/Main';
+import Main from './Main';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (

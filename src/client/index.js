@@ -2,7 +2,7 @@ import React from 'react';
 import registerServiceWorker from './registerServiceWorker';
 import thunk from 'redux-thunk';
 
-import { render } from 'react-dom';
+import { hydrate } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -19,12 +19,19 @@ const theme = createMuiTheme({
   }
 });
 
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = window.__PRELOADED_STATE__;
+​
+// Allow the passed state to be garbage-collected
+delete window.__PRELOADED_STATE__;
+
 export const store = createStore(
   reducer,
+  preloadedState,
   applyMiddleware(thunk)
 );
 
-export default render(
+export default hydrate(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <App/>

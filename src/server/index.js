@@ -12,12 +12,6 @@ const logger       = require('morgan');
 const cors         = require('cors');
 const sourceMapSupport = require('source-map-support');
 
-const ReactRouter = require('react-router');
-const React = require('react');
-const App = require('../shared/App');
-const NoMatch = require('../shared/NoMatch');
-const Error = require('../shared/Error');
-
 const routes       = require('./routes');
 const render       = require('./render');
 
@@ -48,14 +42,7 @@ app.use(logger('dev'))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use('/', express.static('build/client'))
-  .use('/', routes);
-
-app.get('*', (req, res) => {
-    res.status(200).send(render(
-      <ReactRouter.StaticRouter context={{}} location={req.url}>
-          <App/>
-      </ReactRouter.StaticRouter>
-    ));
-});
+  .use('/', routes)
+  .use(render);
 
 app.listen(3000, () => console.log('App listening on port 3000'));

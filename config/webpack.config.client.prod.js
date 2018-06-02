@@ -54,7 +54,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // In production, we only want to load the polyfills and the app code.
 config.entry = [require.resolve('./polyfills'), paths.appIndexJs];
 
-config.output: {
+config.output = {
   // The build folder.
   path: paths.appBuild,
   // Generated JS file names (with nested folders).
@@ -204,7 +204,7 @@ config.plugins = [
 
 // Some libraries import Node modules but don't use them in the browser.
 // Tell Webpack to provide empty mocks for them so importing them works.
-config.node: {
+config.node = {
   fs: 'empty',
   net: 'empty',
   tls: 'empty',
