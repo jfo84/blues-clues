@@ -30,6 +30,7 @@ const theme = createMuiTheme({
 
 export const store = createStore(
   reducer,
+  // preloadedState,
   applyMiddleware(thunk)
 );
 

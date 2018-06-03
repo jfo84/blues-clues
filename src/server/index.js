@@ -24,7 +24,7 @@ import render from './render';
 import App from '../shared/App';
 import reducer from '../shared/reducers/app';
 
-const store = createStore(reducer.default);
+const store = createStore(reducer);
 const preloadedState = store.getState();
 
 const sheetsRegistry = new SheetsRegistry();
@@ -36,7 +36,7 @@ const theme = createMuiTheme({
   }
 });
 const generateClassName = createGenerateClassName();
-const css = sheetsRegistry.toString()
+const css = sheetsRegistry.toString();
 
 const port = process.env.PORT || 3000;
 
