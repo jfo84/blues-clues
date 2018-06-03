@@ -69,15 +69,15 @@ app.use(logger('dev'))
 
 app.get('*', (req, res) => {
   res.status(200).send(render(
-      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-        <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-          <Provider store={store}>
-            <StaticRouter context={{}} location={req.url}>
-              <App/>
-            </StaticRouter>
-          </Provider>
-        </MuiThemeProvider>
-      </JssProvider>,
+    <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+      <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+        <Provider store={store}>
+          <StaticRouter context={{}} location={req.url}>
+            <App/>
+          </StaticRouter>
+        </Provider>
+      </MuiThemeProvider>
+    </JssProvider>,
     preloadedState,
     css
   ));
