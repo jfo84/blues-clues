@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react';
+import { StaticRouter } from 'react-router';
 
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
