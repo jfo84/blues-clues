@@ -1,10 +1,11 @@
 const ReactDOMServer = ('react-dom/server');
-const ReactRedux = require('react-redux');
-const ReactRouter = require('react-router');
-const React = require('react');
 const Redux = require('redux');
-const App = require('../shared/App');
+const { Provider } = require('react-redux');
+const React, {
+  StaticRouter as Router
+} = require('react');
 
+const App = require('../shared/App');
 const reducer = require('../shared/reducers/app');
 
 const store = Redux.createStore(reducer);
@@ -48,10 +49,10 @@ const renderFullPage = (component) => `
 
 export default (req, res) => {
   res.status(200).send(renderFullPage(
-    <ReactRedux.Provider store={store}>
-      <ReactRouter.StaticRouter context={{}} location={req.url}>
+    <Provider store={store}>
+      <Router context={{}} location={req.url}>
           <App/>
-      </ReactRouter.StaticRouter>
-    </ReactRedux.Provider>
+      </Router>
+    </Provider>
   ));
 }
