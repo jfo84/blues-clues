@@ -6,7 +6,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Main from './Main';
+import TrackTable from './TrackTable';
+import RecommendationList from './RecommendationList';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -15,6 +16,25 @@ const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
       : <Redirect to='/api/login' />
   )} />
 );
+
+class Main extends Component {
+  // Remove the server-side injected CSS.
+  componentDidMount() {
+    const jssStyles = document.getElementById('jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
+  render() {
+    return(
+      [
+        <TrackTable/>,
+        <RecommendationList/>
+      ]
+    );
+  }
+}
 
 class App extends Component {
   render() {

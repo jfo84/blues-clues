@@ -6,8 +6,8 @@ import { StaticRouter } from 'react';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from 'material-ui/styles';
-import blue from 'material-ui/colors';
-import white from 'material-ui/colors';
+import blue from 'material-ui/colors/blue';
+import grey from 'material-ui/colors/grey';
 
 import sourceMapSupport from 'source-map-support';
 import express from 'express';
@@ -31,7 +31,7 @@ const sheetsRegistry = new SheetsRegistry();
 const theme = createMuiTheme({
   palette: {
     primary: blue,
-    accent: white,
+    accent: grey,
     type: 'light'
   }
 });

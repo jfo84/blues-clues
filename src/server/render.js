@@ -1,4 +1,4 @@
-const { renderToString } = ('react-dom/server');
+import { renderToString } from 'react-dom/server';
 
 const DEV = process.env.NODE_ENV === 'development';
 const assetManifest = JSON.parse(process.env.REACT_APP_ASSET_MANIFEST || '{}');
@@ -18,7 +18,6 @@ export default (component, preloadedState, muiCss) => `
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#000000">
         ${css}
-        ${muiCss}
         <link rel="manifest" href="/public/manifest.json">
         <link rel="shortcut icon" href="/public/favicon.ico">
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Muli" />
@@ -26,6 +25,7 @@ export default (component, preloadedState, muiCss) => `
       </head>
       <body>
         <div id="root">${renderToString(component)}</div>
+        <style id="jss-server-side">${muiCss}</style>
         <script type="application/javascript" src="${bundleUrl}"></script>
         <script>
           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}

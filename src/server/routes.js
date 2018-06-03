@@ -1,8 +1,8 @@
-const querystring = require('querystring');
-const request = require('request');
-const express = require('express');
-const router = new express.Router();
+import querystring from 'querystring';
+import request from 'request';
+import express from 'express';
 
+const router = new express.Router();
 const STATE_KEY = 'spotify_auth_state';
 const CLIENT_ID = '2658c55e1c16476a8136334d197ddfc6' || process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
