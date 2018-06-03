@@ -16,7 +16,9 @@ import reducer from '../shared/reducers/app';
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue
+    primary: blue,
+    accent: white,
+    type: 'light'
   }
 });
 
