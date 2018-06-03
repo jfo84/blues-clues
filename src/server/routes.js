@@ -103,4 +103,4 @@ router.get('/api/refresh_token', function(req, res) {
   });
 });
 
-module.exports = router;
+export default router;
