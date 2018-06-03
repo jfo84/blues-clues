@@ -10,7 +10,7 @@ const css = DEV ?
   '' : // in DEV the css is hot loaded
   `<link href="/${assetManifest['main.css']}" media="all" rel="stylesheet" />`;
 
-export default (component, preloadedState) => `
+export default (component, preloadedState, muiCss) => `
   <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -18,6 +18,7 @@ export default (component, preloadedState) => `
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#000000">
         ${css}
+        ${muiCss}
         <link rel="manifest" href="/public/manifest.json">
         <link rel="shortcut icon" href="/public/favicon.ico">
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Muli" />

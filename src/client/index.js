@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import { hydrate } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { MuiThemeProvider } from 'material-ui/styles';
 import { createMuiTheme } from 'material-ui/styles';
@@ -33,7 +34,9 @@ export const store = createStore(
 export default hydrate(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <App/>
+      <Router>
+        <App/>
+      </Router>
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('root')
