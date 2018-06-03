@@ -142,7 +142,7 @@ choosePort(HOST, DEFAULT_PORT)
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {
-        devServer.close();
+        clientServer.close();
         process.exit();
       });
     });

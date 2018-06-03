@@ -70,7 +70,7 @@ export const fetchRecommendations = () => {
     const params = { seed_tracks: joinedIds };
 
     const options = {
-      params,
+      params: params,
       headers: {
         'Authorization': `Bearer ${authToken}`
       }
@@ -86,7 +86,7 @@ export const selectTracks = (selectedTracks) => {
   return {
     type: actionTypes.SELECT_TRACKS,
     payload: {
-      selectedTracks
+      selectedTracks: selectedTracks
     }
   };
 };

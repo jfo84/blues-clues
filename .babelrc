@@ -1,9 +1,20 @@
 {
   "presets": [
-    [
-      "latest",
-      { "modules": false }
-    ],
-    "react"
+    ["env", {
+      "targets": {
+        "node": "8.0"
+      }
+    }],
+    "react",
+    "stage-1",
+    "es2015"
+  ],
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "dom"
+    }],
+    "transform-object-rest-spread",
+    "transform-react-jsx",
+    "transform-class-properties"
   ]
 }
