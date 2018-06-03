@@ -1,18 +1,28 @@
 /** Module dependencies. */
 require('dotenv').config();
 
+const React = require('react');
+const { createStore } = require('redux');
+const { Provider } = require('react-redux');
+const { StaticRouter } = require('react');
 
+const sourceMapSupport = require('source-map-support');
 const express      = require('express');
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path         = require('path');
 const logger       = require('morgan');
 const cors         = require('cors');
-const sourceMapSupport = require('source-map-support');
-const proxy = require('http-proxy-middleware');
+const proxy        = require('http-proxy-middleware');
 
 const routes       = require('./routes');
 const render       = require('./render');
+
+const App = require('../shared/App');
+const reducer = require('../shared/reducers/app').default;
+
+const store = createStore(reducer);
+const preloadedState = store.getState();
 
 const port = process.env.PORT || 3000;
 
@@ -41,7 +51,17 @@ app.use(logger('dev'))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use('/', express.static('build/client'))
-  .use('/', routes)
-  .use(render);
+  .use('/', routes);
+
+app.get('*', (req, res) => {
+  res.status(200).send(render(
+    <Provider store={store}>
+      <StaticRouter context={{}} location={req.url}>
+          <App/>
+      </StaticRouter>
+    </Provider>,
+    preloadedState
+  ));
+});
 
 app.listen(3000, () => console.log('App listening on port 3000'));

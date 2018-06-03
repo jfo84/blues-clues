@@ -4,7 +4,7 @@ const express = require('express');
 const router = new express.Router();
 
 const STATE_KEY = 'spotify_auth_state';
-const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_ID = '2658c55e1c16476a8136334d197ddfc6' || process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = 'http://localhost:3000/api/callback/';
 

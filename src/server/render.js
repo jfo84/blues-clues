@@ -1,14 +1,4 @@
-const React = require('react');
-const ReactDOMServer = ('react-dom/server');
-const Redux = require('redux');
-const { Provider } = require('react-redux');
-const { StaticRouter } = require('react');
-
-const App = require('../shared/App').default;
-const reducer = require('../shared/reducers/app').default;
-
-const store = Redux.createStore(reducer);
-const preloadedState = store.getState();
+const { renderToString } = ('react-dom/server');
 
 const DEV = process.env.NODE_ENV === 'development';
 const assetManifest = JSON.parse(process.env.REACT_APP_ASSET_MANIFEST || '{}');
@@ -20,7 +10,7 @@ const css = DEV ?
   '' : // in DEV the css is hot loaded
   `<link href="/${assetManifest['main.css']}" media="all" rel="stylesheet" />`;
 
-const renderFullPage = (component) => `
+export default (component, preloadedState) => `
   <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -34,7 +24,7 @@ const renderFullPage = (component) => `
         <title>Blues Clues</title>
       </head>
       <body>
-        <div id="root">${ReactDOMServer.renderToString(component)}</div>
+        <div id="root">${renderToString(component)}</div>
         <script type="application/javascript" src="${bundleUrl}"></script>
         <script>
           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
@@ -45,13 +35,3 @@ const renderFullPage = (component) => `
       </body>
   </html>
 `;
-
-module.exports = (req, res) => {
-  res.status(200).send(renderFullPage(
-    <Provider store={store}>
-      <StaticRouter context={{}} location={req.url}>
-          <App/>
-      </StaticRouter>
-    </Provider>
-  ));
-};
