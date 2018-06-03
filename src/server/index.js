@@ -72,9 +72,9 @@ app.get('*', (req, res) => {
     <Provider store={store}>
       <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
         <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-            <StaticRouter context={{}} location={req.url}>
-                <App/>
-            </StaticRouter>
+          <StaticRouter context={{}} location={req.url}>
+            <App/>
+          </StaticRouter>
         </MuiThemeProvider>
       </JssProvider>
     </Provider>,
