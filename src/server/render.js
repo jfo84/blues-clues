@@ -1,12 +1,11 @@
+const React = require('react');
 const ReactDOMServer = ('react-dom/server');
 const Redux = require('redux');
 const { Provider } = require('react-redux');
-const React, {
-  StaticRouter as Router
-} = require('react');
+const { StaticRouter } = require('react');
 
-const App = require('../shared/App');
-const reducer = require('../shared/reducers/app');
+const App = require('../shared/App').default;
+const reducer = require('../shared/reducers/app').default;
 
 const store = Redux.createStore(reducer);
 const preloadedState = store.getState();
@@ -47,12 +46,12 @@ const renderFullPage = (component) => `
   </html>
 `;
 
-export default (req, res) => {
+module.exports = (req, res) => {
   res.status(200).send(renderFullPage(
     <Provider store={store}>
-      <Router context={{}} location={req.url}>
+      <StaticRouter context={{}} location={req.url}>
           <App/>
-      </Router>
+      </StaticRouter>
     </Provider>
   ));
-}
+};
