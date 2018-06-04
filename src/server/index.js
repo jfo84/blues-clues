@@ -5,9 +5,12 @@ import { StaticRouter } from 'react-router';
 
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
+
 import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import grey from 'material-ui/colors/grey';
+
+import { StyleSheetManager, ServerStyleSheet } from 'styled-components';
 
 import sourceMapSupport from 'source-map-support';
 import express from 'express';
@@ -24,9 +27,11 @@ import render from './render';
 import App from '../shared/App';
 import reducer from '../shared/reducers/app';
 
+// Redux
 const store = createStore(reducer);
 const preloadedState = store.getState();
 
+// Material UI
 const sheetsRegistry = new SheetsRegistry();
 const theme = createMuiTheme({
   palette: {
@@ -36,7 +41,11 @@ const theme = createMuiTheme({
   }
 });
 const generateClassName = createGenerateClassName();
-const css = sheetsRegistry.toString();
+const muiCss = sheetsRegistry.toString();
+
+// Styled Components
+const sheet = new ServerStyleSheet();
+const styledCss = sheet.getStyleTags();
 
 const port = process.env.PORT || 3000;
 
@@ -69,17 +78,20 @@ app.use(logger('dev'))
 
 app.get('*', (req, res) => {
   res.status(200).send(render(
-    <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-      <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-        <Provider store={store}>
-          <StaticRouter context={{}} location={req.url}>
-            <App/>
-          </StaticRouter>
-        </Provider>
-      </MuiThemeProvider>
-    </JssProvider>,
+    <StyleSheetManager sheet={sheet}>
+      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+        <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+          <Provider store={store}>
+            <StaticRouter context={{}} location={req.url}>
+              <App/>
+            </StaticRouter>
+          </Provider>
+        </MuiThemeProvider>
+      </JssProvider>
+    </StyleSheetManager>,
     preloadedState,
-    css
+    muiCss,
+    styledCss
   ));
 });
 

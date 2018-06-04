@@ -6,18 +6,19 @@ const bundleUrl = DEV ?
   '/static/js/bundle.js' :
   `/${assetManifest['main.js']}`;
 
-const css = DEV ?
+const baseCss = DEV ?
   '' : // in DEV the css is hot loaded
   `<link href="/${assetManifest['main.css']}" media="all" rel="stylesheet" />`;
 
-export default (component, preloadedState, muiCss) => `
+export default (component, preloadedState, muiCss, styledCss) => `
   <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#000000">
-        ${css}
+        ${baseCss}
+        ${styledCss}
         <style id="jss-server-side">${muiCss}</style>
         <link rel="manifest" href="/public/manifest.json">
         <link rel="shortcut icon" href="/public/favicon.ico">
