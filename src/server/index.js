@@ -78,7 +78,7 @@ app.use(logger('dev'))
 
 app.get('*', (req, res) => {
   res.status(200).send(render(
-    <StyleSheetManager sheet={sheet}>
+    <StyleSheetManager sheet={sheet.instance}>
       <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
         <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
           <Provider store={store}>
