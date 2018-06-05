@@ -6,8 +6,8 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 
 import RecommendationList from './RecommendationList';
-import reducer from './reducers/app';
-import { tracks } from './data';
+import reducer from '.././reducers/app';
+import { tracks } from '.././data';
 
 describe('Recommendation request flow', () => {
   let httpMock;

@@ -7,16 +7,26 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import TrackTable from './TrackTable';
-import RecommendationList from './RecommendationList';
+import TrackTable from './components/TrackTable';
+import RecommendationList from './components/RecommendationList';
 
 const PrivateRoute = ({ component: Component, hasAuthenticated, ...rest }) => (
   <Route {...rest} render={(props) => (
     hasAuthenticated === true
       ? <Component {...props} />
-      : <Redirect to='/api/login' />
+      : <Login />
   )} />
 );
+
+class Login extends Component {
+  componentDidMount() {
+    this.props.fetchAuth();
+  }
+
+  render() {
+    return null;
+  }
+}
 
 class Main extends Component {
   // Remove the server-side injected CSS.
@@ -26,7 +36,8 @@ class Main extends Component {
       jssStyles.parentNode.removeChild(jssStyles);
     }
 
-    this.props.fetchAuth();
+    
+    
   }
 
   render() {

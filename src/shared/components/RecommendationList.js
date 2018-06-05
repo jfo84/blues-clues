@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchRecommendations } from './actions';
+import { fetchRecommendations } from '.././actions';
 
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
