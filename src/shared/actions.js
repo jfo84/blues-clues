@@ -5,6 +5,44 @@ import * as actionTypes from './actionTypes';
 const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks';
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
 
+const requestAuth = () => {
+  return {
+    type: actionTypes.REQUEST_AUTH,
+    payload: {
+      hasAuthenticated: false,
+      isAuthenticating: true
+    }
+  };
+};
+
+// Normally only fetchAuth would be exported but since receiveAuth is handled
+// in AuthSuccess after redirect from Spotify this is also exported
+export const receiveAuth = (authToken, error) => {
+  return {
+    type: actionTypes.RECEIVE_AUTH,
+    payload: {
+      hasAuthenticated: true,
+      isAuthenticating: false,
+      authToken,
+      error
+    }
+  };
+};
+
+export const fetchAuth = () => {
+  return (dispatch) => {
+    dispatch(requestAuth());
+
+    axios.get('/api/login').then((response) => {
+			if (response.status === 200) {
+				dispatch(receiveAuth(response))
+			}
+		}).catch((err) => {
+			console.log('Error logging in to Spotify', err);
+		});
+  }
+};
+
 const requestTracks = () => {
   return {
     type: actionTypes.REQUEST_TRACKS,

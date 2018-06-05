@@ -1,5 +1,4 @@
 import React from 'react';
-import registerServiceWorker from './registerServiceWorker';
 import thunk from 'redux-thunk';
 
 import { hydrate } from 'react-dom';
@@ -13,6 +12,8 @@ import grey from 'material-ui/colors/grey';
 
 import App from '../shared/App';
 import reducer from '../shared/reducers/app';
+import registerServiceWorker from './registerServiceWorker';
+import './index.css';
 
 const theme = createMuiTheme({
   palette: {

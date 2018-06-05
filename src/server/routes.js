@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
 import querystring from 'querystring';
 import request from 'request';
 import express from 'express';
+
+dotenv.config();
 
 const router = new express.Router();
 const STATE_KEY = 'spotify_auth_state';

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -24,6 +25,8 @@ class Main extends Component {
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
+
+    this.props.fetchAuth();
   }
 
   render() {
@@ -48,10 +51,16 @@ class App extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAuth: () => { dispatch(fetchAuth()) }
+  };
+};
+
 const mapStateToProps = (state) => {
   return {
     hasAuthenticated: state.hasAuthenticated
   };
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
