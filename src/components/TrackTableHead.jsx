@@ -1,5 +1,7 @@
 import React from 'react';
 import Checkbox from 'material-ui/Checkbox';
+import PropTypes from 'prop-types';
+
 import { pure } from 'recompose';
 import {
   TableHead,
@@ -40,6 +42,12 @@ const TrackTableHead = (props) => {
       </TableRow>
     </TableHead>
   );
+}
+
+TrackTableHead.propTypes = {
+  onSelectAllClick: PropTypes.func,
+  numSelected: PropTypes.number,
+  rowCount: PropTypes.number
 }
 
 export default pure(TrackTableHead);
