@@ -45,9 +45,9 @@ const TrackTableHead = (props) => {
 }
 
 TrackTableHead.propTypes = {
-  onSelectAllClick: PropTypes.func,
-  numSelected: PropTypes.number,
-  rowCount: PropTypes.number
+  onSelectAllClick: PropTypes.func.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired
 }
 
 export default pure(TrackTableHead);
