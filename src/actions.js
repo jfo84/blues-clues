@@ -14,20 +14,20 @@ const requestAuth = () => {
     type: actionTypes.REQUEST_AUTH,
     payload: {
       hasAuthenticated: false,
-      isAuthenticating: true
+      inProgress: true
     }
   };
 };
 
 // Normally only fetchAuth would be exported but since receiveAuth is handled
 // in AuthSuccess after redirect from Spotify this is also exported
-export const receiveAuth = (authToken, error) => {
+export const receiveAuth = (token, error) => {
   return {
     type: actionTypes.RECEIVE_AUTH,
     payload: {
       hasAuthenticated: true,
-      isAuthenticating: false,
-      authToken,
+      inProgress: false,
+      token,
       error
     }
   };
@@ -40,7 +40,7 @@ export const fetchAuth = () => {
     const params = { 
       client_id: clientId, 
       response_type: 'token', 
-      redirect_uri: 'http://localhost:3000/auth_success/', 
+      redirect_uri: 'http://localhost:3000/auth_callback', 
       scope: 'user-top-read'
     };
     const url = `${AUTH_URL}?${queryString.stringify(params)}`;
@@ -57,7 +57,7 @@ const requestTracks = () => {
   return {
     type: actionTypes.REQUEST_TRACKS,
     payload: {
-      fetchingTracks: true
+      fetching: true
     }
   };
 };
@@ -66,8 +66,8 @@ const receiveTracks = (response) => {
   return {
     type: actionTypes.RECEIVE_TRACKS,
     payload: {
-      fetchingTracks: false,
-      tracks: response.data.items
+      fetching: false,
+      items: response.data.items
     }
   };
 };
@@ -76,7 +76,9 @@ export const fetchTracks = () => {
   return (dispatch, getState) => {
     dispatch(requestTracks());
 
-    const { authToken } = getState();
+    const { auth } = getState();
+    const authToken = auth.token;
+
     const options = {
       headers: {
         'Authorization': `Bearer ${authToken}`
@@ -89,11 +91,20 @@ export const fetchTracks = () => {
   }
 };
 
+export const selectTracks = (selected) => {
+  return {
+    type: actionTypes.SELECT_TRACKS,
+    payload: {
+      selected
+    }
+  };
+};
+
 const requestRecommendations = () => {
   return {
     type: actionTypes.REQUEST_RECOMMENDATIONS,
     payload: {
-      fetchingRecommendations: true
+      fetching: true
     }
   };
 };
@@ -102,8 +113,8 @@ const receiveRecommendations = (response) => {
   return {
     type: actionTypes.RECEIVE_RECOMMENDATIONS,
     payload: {
-      fetchingRecommendations: false,
-      recommendations: response.data.tracks
+      fetching: false,
+      items: response.data.tracks
     }
   };
 };
@@ -112,7 +123,9 @@ export const fetchRecommendations = () => {
   return (dispatch, getState) => {
     dispatch(requestRecommendations());
 
-    const { authToken, selectedTracks } = getState();
+    const { auth, tracks } = getState();
+    const authToken = auth.token;
+    const selectedTracks = tracks.selected;
 
     const joinedIds = selectedTracks.join(',');
     const params = { seed_tracks: joinedIds };
@@ -128,13 +141,4 @@ export const fetchRecommendations = () => {
       dispatch(receiveRecommendations(response))
     });
   }
-};
-
-export const selectTracks = (selectedTracks) => {
-  return {
-    type: actionTypes.SELECT_TRACKS,
-    payload: {
-      selectedTracks
-    }
-  };
 };

@@ -3,7 +3,7 @@ import registerServiceWorker from './registerServiceWorker';
 import thunk from 'redux-thunk';
 
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import { MuiThemeProvider } from 'material-ui/styles';
@@ -11,7 +11,10 @@ import { createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 
 import App from './App';
-import reducer from './reducer';
+
+import authReducer from './reducers/auth';
+import recommendationsReducer from './reducers/recommendations';
+import tracksReducer from './reducers/tracks';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +23,11 @@ const theme = createMuiTheme({
 });
 
 export const store = createStore(
-  reducer,
+  combineReducers({
+    auth: authReducer,
+    recommendations: recommendationsReducer,
+    tracks: tracksReducer
+  }),
   applyMiddleware(thunk)
 );
 

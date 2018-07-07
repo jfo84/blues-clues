@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { receiveAuth } from '../actions';
 import { Redirect, withRouter } from 'react-router-dom';
 
-class AuthSuccess extends Component {
+class AuthCallback extends Component {
   componentWillMount() {
     const paramsString = this.props.location.hash.substring(1);
     const params = this.parseQuery(paramsString);
@@ -41,16 +41,16 @@ class AuthSuccess extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    hasAuthenticated: state.hasAuthenticated,
-    isAuthenticating: state.isAuthenticating,
-    error: state.error
+    hasAuthenticated: state.auth.hasAuthenticated,
+    isAuthenticating: state.auth.inProgress,
+    error: state.auth.error
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    receiveAuth: (authToken) => { dispatch(receiveAuth(authToken)) }
+    receiveAuth: (token) => { dispatch(receiveAuth(token)) }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AuthSuccess));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AuthCallback));

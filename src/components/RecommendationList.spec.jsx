@@ -3,10 +3,14 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 import RecommendationList from './RecommendationList';
-import reducer from '../reducer';
+
+import authReducer from '.././reducers/auth';
+import recommendationsReducer from '.././reducers/recommendations';
+import tracksReducer from '.././reducers/tracks';
+
 import { tracks } from '../data';
 
 describe('Recommendation request flow', () => {
@@ -14,8 +18,12 @@ describe('Recommendation request flow', () => {
   let store;
 
   const initialState = {
-    recommendations: [],
-    selectedTracks: ['1', '2']
+    recommendations: {
+      items: []
+    },
+    tracks: {
+      selected: ['1', '2']
+    }
   };
 
   const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
@@ -23,7 +31,11 @@ describe('Recommendation request flow', () => {
   beforeEach(() => {
     httpMock = new MockAdapter(axios);
     store = createStore(
-      reducer,
+      combineReducers({
+        auth: authReducer,
+        recommendations: recommendationsReducer,
+        tracks: tracksReducer
+      }),
       initialState,
       applyMiddleware(thunk)
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Checkbox from 'material-ui/Checkbox';
+import { pure } from 'recompose';
 import {
   TableHead,
   TableCell,
@@ -41,4 +42,4 @@ const TrackTableHead = (props) => {
   );
 }
 
-export default TrackTableHead;
+export default pure(TrackTableHead);

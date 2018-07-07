@@ -3,10 +3,14 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 import TrackTable from './TrackTable';
-import reducer from '../reducer';
+
+import authReducer from '.././reducers/auth';
+import recommendationsReducer from '.././reducers/recommendations';
+import tracksReducer from '.././reducers/tracks';
+
 import { tracks } from '../data';
 
 describe('Track request flow', () => {
@@ -14,9 +18,11 @@ describe('Track request flow', () => {
   let store;
 
   const initialState = {
-    fetchingTracks: false,
-    tracks: [],
-    selectedTracks: []
+    tracks: {
+      fetching: false,
+      items: [],
+      selected: []
+    }
   };
 
   const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
@@ -24,7 +30,11 @@ describe('Track request flow', () => {
   beforeEach(() => {
     httpMock = new MockAdapter(axios);
     store = createStore(
-      reducer,
+      combineReducers({
+        auth: authReducer,
+        recommendations: recommendationsReducer,
+        tracks: tracksReducer
+      }),
       initialState,
       applyMiddleware(thunk)
     );

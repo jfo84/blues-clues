@@ -58,11 +58,6 @@ class RecommendationList extends Component {
 
               return(
                 mediumImage ?
-                  // You could query for the album and figure out if it's a single
-                  // If it's a single, don't include the album name because it's duplicate
-                  // But it's probably way too expensive for such a small UI tweak
-                  // They do have a bulk API though:
-                  // https://beta.developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/
                   (<Recommendation key={index} className={'recommendation' + index}>
                     <Description style={{ minHeight: '40px' }}>
                       {recommendation.name} - {artistNames}
@@ -85,8 +80,8 @@ class RecommendationList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    recommendations: state.recommendations,
-    selectedTracks: state.selectedTracks
+    recommendations: state.recommendations.items,
+    selectedTracks: state.tracks.selected
   };
 };
 
