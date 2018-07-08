@@ -8,7 +8,7 @@ import Table, {
   TableRow
 } from 'material-ui/Table';
 
-import TrackTableHead from './TrackTableHead';
+import TracksHead from './TracksHead';
 
 let LoadingRow = () => {
   return(
@@ -18,7 +18,7 @@ let LoadingRow = () => {
   );
 };
 
-class TrackTable extends Component {
+class Tracks extends Component {
   componentWillMount() {
     this.props.fetchTracks();
   }
@@ -61,7 +61,7 @@ class TrackTable extends Component {
 
     return(
       <Table>
-        <TrackTableHead
+        <TracksHead
           rowCount={tracks.length}
           numSelected={selected.length}
           onSelectAllClick={this.handleSelectAllClick}
@@ -114,4 +114,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrackTable);
+export default connect(mapStateToProps, mapDispatchToProps)(Tracks);

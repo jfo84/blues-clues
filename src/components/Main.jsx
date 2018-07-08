@@ -1,12 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import TrackTable from './TrackTable';
-import RecommendationList from './RecommendationList';
+import Tracks from './Tracks';
+import DisplayButtons from './DisplayButtons';
+import Recommendations from './Recommendations';
+import Playlists from './Playlists';
+
+const Container = styled.div`
+  display: flex;
+`;
 
 const Main = () => (
   <div>
-    <TrackTable/>
-    <RecommendationList/>
+    <Tracks/>
+    <DisplayButtons/>
+    <Container>
+      <Recommendations/>
+      <Playlists/>
+    </Container>
   </div>
 );
 

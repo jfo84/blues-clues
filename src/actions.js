@@ -8,6 +8,7 @@ const clientId = '2658c55e1c16476a8136334d197ddfc6';
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TRACKS_URL = 'https://api.spotify.com/v1/me/top/tracks';
 const RECS_URL = 'https://api.spotify.com/v1/recommendations';
+const PLAYLISTS_URL = 'https://api.spotify.com/v1/me/playlists';
 
 const requestAuth = () => {
   return {
@@ -139,6 +140,44 @@ export const fetchRecommendations = () => {
 
     return axios.get(RECS_URL, options).then((response) => {
       dispatch(receiveRecommendations(response))
+    });
+  }
+};
+
+const requestPlaylists = () => {
+  return {
+    type: actionTypes.REQUEST_PLAYLISTS,
+    payload: {
+      fetching: true
+    }
+  };
+};
+
+const receivePlaylists = (response) => {
+  return {
+    type: actionTypes.RECEIVE_PLAYLISTS,
+    payload: {
+      fetching: false,
+      items: response.data.items
+    }
+  };
+};
+
+export const fetchPlaylists = () => {
+  return (dispatch, getState) => {
+    dispatch(requestPlaylists());
+
+    const { auth } = getState();
+    const authToken = auth.token;
+
+    const options = {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    };
+
+    return axios.get(PLAYLISTS_URL, options).then((response) => {
+      dispatch(receivePlaylists(response))
     });
   }
 };

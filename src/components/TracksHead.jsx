@@ -15,7 +15,7 @@ const headerData = [
   { id: 'album', label: 'Album', disablePadding: false }
 ];
 
-const TrackTableHead = (props) => {
+const TracksHead = (props) => {
   const { onSelectAllClick, numSelected, rowCount } = props;
 
   return (
@@ -42,12 +42,12 @@ const TrackTableHead = (props) => {
       </TableRow>
     </TableHead>
   );
-}
+};
 
-TrackTableHead.propTypes = {
+TracksHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   numSelected: PropTypes.number.isRequired,
   rowCount: PropTypes.number.isRequired
-}
+};
 
-export default pure(TrackTableHead);
+export default pure(TracksHead);

@@ -13,6 +13,7 @@ import blue from 'material-ui/colors/blue';
 import App from './App';
 
 import authReducer from './reducers/auth';
+import playlistsReducer from './reducers/playlists';
 import recommendationsReducer from './reducers/recommendations';
 import tracksReducer from './reducers/tracks';
 
@@ -25,6 +26,7 @@ const theme = createMuiTheme({
 export const store = createStore(
   combineReducers({
     auth: authReducer,
+    playlists: playlistsReducer,
     recommendations: recommendationsReducer,
     tracks: tracksReducer
   }),

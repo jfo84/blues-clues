@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 
-import TrackTable from './TrackTable';
+import Tracks from './Tracks';
 
 import authReducer from '.././reducers/auth';
 import recommendationsReducer from '.././reducers/recommendations';
@@ -46,7 +46,7 @@ describe('Track request flow', () => {
       items: tracks
     });
 
-    const wrapper = mount(<Provider store={store}><TrackTable/></Provider>);
+    const wrapper = mount(<Provider store={store}><Tracks/></Provider>);
 
     // Check that our table head renders
     expect(wrapper.find('.all-tracks-checkbox').exists()).toBe(true);
