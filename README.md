@@ -11,5 +11,4 @@ TODO
 - node.js server for handling the client secret and allowing a flow that includes user login
 - Drag and Drop to allow quick addition of recommendations to your choice of recent playlists
 
-
 ![alt text](https://user-images.githubusercontent.com/11723485/39970352-2481fae8-56ea-11e8-9099-5126f59a041e.png)
